@@ -57,6 +57,9 @@ INSTALLED_APPS = [
 
     # Local
     'users.apps.UsersConfig',
+    'listings.apps.ListingsConfig',
+    'maintenance_requests.apps.MaintenanceRequestsConfig',
+    'contacts.apps.ContactsConfig',
 ]
 
 MIDDLEWARE = [
