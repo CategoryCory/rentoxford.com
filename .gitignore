@@ -146,4 +146,10 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
+# Static files
+/static
+
+# Media files
+/media
+
 # End of https://www.toptal.com/developers/gitignore/api/django

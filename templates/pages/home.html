@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- HERO / SEARCH FORM -->
+<section
+    class="container-fluid hero d-flex flex-column justify-content-center align-items-center py-5"
+>
+    <div id="search-form">
+        <h2 class="display-4">Find Your Dream Property in Oxford</h2>
+        <form action="search-form.html">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <select name="price" class="form-control" id="type">
+                        <option selected="true">Max Price (Any)</option>
+                        <option value="100000">$100,000</option>
+                        <option value="200000">$200,000</option>
+                        <option value="300000">$300,000</option>
+                        <option value="400000">$400,000</option>
+                        <option value="500000">$500,000</option>
+                        <option value="600000">$600,000</option>
+                        <option value="700000">$700,000</option>
+                        <option value="800000">$800,000</option>
+                        <option value="900000">$900,000</option>
+                        <option value="1000000">$1M+</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="sr-only">Bedrooms</label>
+                    <select name="bedrooms" class="form-control">
+                        <option selected="true">Bedrooms (All)</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="sr-only">Bathrooms</label>
+                    <select name="bathrooms" class="form-control">
+                        <option selected="true">Bathrooms (All)</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="keywords" class="sr-only">Keywords</label>
+                <input
+                    type="text"
+                    id="keywords"
+                    name="keywords"
+                    class="form-control"
+                    placeholder="Keyword (Pool, Garage, etc)"
+                />
+            </div>
+            <button class="btn btn-secondary btn-block">
+                <i class="fas fa-search mr-2"></i>SEARCH
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- CARDS -->
+<section class="container my-4">
+    <div class="row justify-content-center pt-4">
+        <div class="col-10 col-md-4 d-flex align-items-stretch">
+            <div class="card border-0 bg-tertiary text-white shadow mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">PAY RENT ONLINE</h5>
+                    <p class="card-text">
+                        Did you know that you can now pay your rent
+                        online? It's fast, easy, and secure, so why
+                        wait?
+                    </p>
+                    <a href="some-page.html" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 col-md-4 d-flex align-items-stretch">
+            <div class="card border-0 bg-tertiary text-white shadow mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">AVAILABLE PROPERTIES</h5>
+                    <p class="card-text">
+                        View our available rental properties and submit
+                        an application online quickly and easily.
+                    </p>
+                    <a href="available-properties.html" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 col-md-4 d-flex align-items-stretch">
+            <div class="card border-0 bg-tertiary text-white shadow mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">WE BUY HOUSES!</h5>
+                    <p class="card-text">
+                        Have a house you'd like to sell? Receive a
+                        written offer in 48 hours or less!
+                    </p>
+                    <a href="some-page.html" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<div class="container py-4 px-3">
+    <h3 class="red-border-bottom">OXFORD PROPERTY MANAGEMENT</h3>
+    <p>
+        Oxford Property Management is a tenant-focused property
+        management company catering to students, young professionals,
+        and families throughout Oxford, MS and Lafayette County. Whether
+        you are looking for a single-family home, townhouse, or condo,
+        we offer a wide range of well-maintained properties to suit
+        almost any need. At OPM, our team is committed to providing
+        superior customer service and value to our tenants daily.
+    </p>
+</div>
+{% endblock content %}

@@ -1,0 +1,50 @@
+/* HOME PAGE */
+
+.hero {
+    min-height: 500px;
+    background: linear-gradient(
+            rgba(33, 45, 58, 0.2),
+            rgba(33, 45, 58, 0.2)
+        ),
+        url(../img/banner.jpg);
+    background-size: cover;
+}
+
+#search-form {
+    padding: 2em 3em;
+    background-color: rgba(33, 45, 58, 0.8);
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+}
+
+/* AVAILABLE RENTALS PAGE */
+.map-image {
+    max-width: 100%;
+}
+
+.img-overlay-address {
+    background: rgba(0, 0, 0, 0.5) linear-gradient(
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.5) 40%,
+            rgba(0, 0, 0, 0.5) 100%
+    );
+    padding: 0.5em 0.75em;
+}
+
+.img-overlay-available {
+    background-color: rgba(0, 180, 0, 0.6);
+}
+
+.img-overlay-rented {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* PROPERTY DETAILS PAGE */
+.main-house-image {
+    max-width: 100%;
+}
+
+#house-gallery img {
+    cursor: pointer;
+}

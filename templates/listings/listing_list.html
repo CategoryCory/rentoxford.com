@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% for listing in listing_list %}
+    {% if listing.is_published %}
+        <p>{{ listing.title }}</p>
+    {% endif %}
+{% empty %}
+<p>There are no listings at this time.</p>
+{% endfor %}
+{% endblock content %}

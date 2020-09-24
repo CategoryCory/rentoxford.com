@@ -1,0 +1,119 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RentOxford{% block title %}{% endblock title %}</title>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@100;400&family=Titillium+Web:wght@300;700&display=swap"
+            rel="stylesheet"
+    />
+    <link href="{% static 'css/bundle.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+        <a class="navbar-brand" href="{% url 'pages:home' %}">
+            <img src="{% static 'img/oxford_pm_logo-resized.png' %}" width="375" />
+        </a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item ml-3 active">
+                    <a class="nav-link text-uppercase" href="{% url 'pages:home' %}">
+                        Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ml-3 dropdown">
+                    <a
+                        class="nav-link text-uppercase dropdown-toggle"
+                        href="#"
+                        id="navbarDropdown"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        Properties
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="available-rentals.html">Available Rentals</a>
+                        <a class="dropdown-item" href="communities.html">Communities</a>
+                    </div>
+                </li>
+                <li class="nav-item ml-3 text-uppercase">
+                    <a class="nav-link" href="self-storage.html">Self Storage</a>
+                </li>
+                <li class="nav-item ml-3 text-uppercase">
+                    <a class="nav-link" href="contact.html">Contact Us</a>
+                </li>
+                <li class="nav-item ml-3 text-uppercase">
+                    <a class="nav-link btn btn-secondary text-white px-3" href="tenant-login.html">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Tenant Login
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock content %}
+
+    <!-- FOOTER -->
+    <footer class="footer bg-primary text-white pt-4 pb-2">
+        <div class="container">
+            <h3 class="mb-4">GET IN TOUCH</h3>
+            <p>
+                <span class="d-inline mx-3 text-right"><i class="fas fa-map-marker-alt h4"></i></span>
+                555 Main Street, Oxford, MS 38655
+            </p>
+            <p>
+                <span class="d-inline mx-3 text-right"><i class="fas fa-phone h4"></i></span>
+                662-238-3353
+            </p>
+            <p>
+                <span class="d-inline mx-3 text-right"><i class="fas fa-envelope h4"></i></span>
+                contact@rentoxford.com
+            </p>
+            <hr />
+            <p class="text-tertiary">
+                &copy; Copyright 2020 Oxford Property Management
+            </p>
+        </div>
+    </footer>
+
+    <!-- JS Includes -->
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://kit.fontawesome.com/bcdd1ea5a6.js"
+        crossorigin="anonymous"
+    ></script>
+</body>
+</html>

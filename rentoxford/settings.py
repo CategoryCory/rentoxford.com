@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.humanize',
 
     # 3rd party
     'allauth',
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
 
     # Local
     'users.apps.UsersConfig',
+    'pages.apps.PagesConfig',
     'listings.apps.ListingsConfig',
     'maintenance_requests.apps.MaintenanceRequestsConfig',
     'contacts.apps.ContactsConfig',
@@ -158,8 +160,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # User model setup
 AUTH_USER_MODEL = 'users.CustomUser'
-LOGIN_REDIRECT_URL = 'home'
-ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'pages:home'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'pages:home'
 
 # Django allauth setup
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

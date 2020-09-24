@@ -21,8 +21,8 @@ class Listing(models.Model):
     city = models.CharField(verbose_name='City', max_length=100)
     state = models.CharField(verbose_name='State', max_length=100)
     zipcode = models.CharField(verbose_name='ZIP Code', max_length=20)
-    latitude = models.FloatField(blank=True)
-    longitude = models.FloatField(blank=True)
+    latitude = models.FloatField(default=0)
+    longitude = models.FloatField(default=0)
     bedrooms = models.IntegerField(default=0)
     bathrooms = models.FloatField(default=0)
     has_garage = models.BooleanField(default=False)
@@ -40,15 +40,18 @@ class Listing(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
     main_image = models.ImageField(upload_to='photos/%Y/%m/%d/')
-    gallery_image_1 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
-    gallery_image_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
-    gallery_image_3 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
-    gallery_image_4 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
-    gallery_image_5 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
-    gallery_image_6 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('listing_detail', kwargs={'slug': self.slug})
+
+
+class ListingGalleryImages(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, default=None)
+    image = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Image')
+
+    class Meta:
+        verbose_name = 'Gallery Image'
+        verbose_name_plural = 'Gallery Images'
