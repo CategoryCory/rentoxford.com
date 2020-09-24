@@ -125,49 +125,39 @@
         >
             <h5>RENT</h5>
             <h2>${{ listing.monthly_rent|intcomma }}</h2>
-            <p class="mb-4">
-                Available <span class="text-uppercase">Now</span>
-            </p>
-            <div class="row justify-content-between mb-4 w-100">
-                <div
-                    class="col-4 d-flex flex-column align-items-center mb-3"
-                >
+            <div class="row justify-content-between my-2 w-100">
+                <div class="col-4 d-flex flex-column align-items-center mb-3">
                     <i class="fas fa-bed text-muted"></i>{{ listing.bedrooms }} beds
                 </div>
-                <div
-                    class="col-4 d-flex flex-column align-items-center mb-3"
-                >
+                <div class="col-4 d-flex flex-column align-items-center mb-3">
                     <i class="fas fa-bath text-muted"></i>{{ listing.bathrooms }} baths
                 </div>
-                <div
-                    class="col-4 d-flex flex-column align-items-center mb-3"
-                >
+                <div class="col-4 d-flex flex-column align-items-center mb-3">
                     <i class="fas fa-ruler-combined text-muted"></i>{{ listing.square_feet }}
                     sq ft
                 </div>
             </div>
-            <a href="#" class="btn btn-secondary btn-block mb-2"
-                ><i class="fas fa-check-circle mr-2"></i>Apply Now</a
-            >
-            <a href="#" class="btn btn-primary btn-block mb-2"
-                ><i class="fas fa-envelope mr-2"></i>Contact Us</a
-            >
-            <div
-                class="d-flex flex-column align-items-start mt-4 w-100"
-            >
+            <div class="d-flex flex-column align-items-start w-100">
                 <h4>Terms</h4>
-                <ul>
+                <ul class="mb-4">
                     <li>Rent: ${{ listing.monthly_rent|intcomma }}</li>
                     <li>Security Deposit: ${{ listing.security_deposit|intcomma }}</li>
+                    <li>Available: {{ listing.available_date|date:'F j, Y' }}</li>
                 </ul>
-                <h4>Pet Policy</h4>
-                <ul>
-                    <li>Cats Allowed</li>
-                    <li>Dogs Allowed</li>
-                </ul>
+                {% if listing.cats_allowed %}
+                    <p><i class="fas fa-cat h5 mr-2"></i>Cats Allowed</p>
+                {% endif %}
+                {% if listing.dogs_allowed %}
+                    <p><i class="fas fa-dog h5 mr-2"></i>Dogs Allowed</p>
+                {% endif %}
+                <!-- a href="#" class="btn btn-secondary btn-block mb-2">
+                    <i class="fas fa-check-circle mr-2"></i>Apply Now
+                </a -->
+                <a href="#" class="btn btn-secondary btn-block mb-2">
+                    <i class="fas fa-envelope mr-2"></i>Contact Us
+                </a>
                 <p class="mt-3">
-                    <span class="font-weight-bold">Contact Us: </span
-                    >(662) 238-3353
+                    <span class="font-weight-bold">Give us a call: </span>(662) 238-3353
                 </p>
                 <div class="row">
                     <div class="col flex-column">
@@ -184,9 +174,98 @@
                 </div>
             </div>
         </div>
-        <div class="col-10 col-lg-8">
-            <img src="img/map.png" alt="" class="map-image" />
+        <div class="col-10 col-lg-8 px-3">
+            <div id="listing-map"></div>
         </div>
     </div>
 </section><!-- INFO BLOCK -->
+
+<!-- IMAGE GALLERY MODAL (MEDIUM / LARGE SCREENS ONLY) -->
+<div
+    class="modal fade"
+    id="house-gallery-modal"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true"><i class="fas fa-times text-secondary"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div
+                    id="house-image"
+                    class="carousel slide"
+                    data-ride="carousel"
+                >
+                    <div class="carousel-inner">
+                        {% for gallery_image in listing.listinggalleryimages_set.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ gallery_image.image.url }}" alt="" class="d-block w-100" />
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a
+                        href="#house-image"
+                        class="carousel-control-prev"
+                        role="button"
+                        data-slide="prev"
+                    >
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a
+                        href="#house-image"
+                        class="carousel-control-next"
+                        role="button"
+                        data-slide="next"
+                    >
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
+
+{% block extrascripts %}
+    <script>
+        function initMap() {
+            // Gather variables
+            const listingLatitude = {{ listing.latitude }};
+            const listingLongitude = {{ listing.longitude }};
+            const listingTitle = "{{ listing.title }}";
+
+            const listingPosition = { lat: listingLatitude, lng: listingLongitude };
+            const mapDiv = document.getElementById('listing-map');
+            const mapOptions = {
+                zoom: 14,
+                center: listingPosition,
+            };
+            const map = new google.maps.Map(mapDiv, mapOptions);
+
+            const listingMarker = new google.maps.Marker({
+                position: listingPosition,
+                map: map,
+                title: listingTitle,
+            });
+        }
+    </script>
+    <script
+        defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5mI5yXIRW-n99LeI-jjYH-wPQpfaCFuw&callback=initMap">
+    </script>
+{% endblock extrascripts %}
