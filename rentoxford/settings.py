@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
 
     # Local
     'users.apps.UsersConfig',
@@ -182,3 +183,6 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 # Google Maps
 MAPS_API_KEY = env('MAPS_API_KEY')
+
+# Crispy Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

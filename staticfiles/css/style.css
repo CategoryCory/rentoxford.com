@@ -1,3 +1,21 @@
+/* SITEWIDE STYLES */
+@media screen and (min-width: 550px) {
+    .navbar-brand img {
+        width: 375px;
+    }
+}
+
+@media screen and (max-width: 549px) {
+    .navbar-brand {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .navbar-brand img {
+        width: 300px;
+    }
+}
+
 /* HOME PAGE */
 
 .hero {
@@ -56,6 +74,11 @@
 #listing-map,
 #listing-list-map {
     width: 100%;
+}
+
+/* CONTACT PAGE */
+.contact-page-image {
+    max-width: 500px;
 }
 
 @media screen and (min-width: 768px) {

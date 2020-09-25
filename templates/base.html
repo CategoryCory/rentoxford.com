@@ -19,7 +19,7 @@
     <!-- NAVIGATION -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
         <a class="navbar-brand" href="{% url 'pages:home' %}">
-            <img src="{% static 'img/oxford_pm_logo-resized.png' %}" width="375" />
+            <img src="{% static 'img/oxford_pm_logo-resized.png' %}" />
         </a>
         <button
             class="navbar-toggler"
@@ -59,7 +59,7 @@
                     <a class="nav-link" href="https://collegetownstoragecompany.com/">Self Storage</a>
                 </li>
                 <li class="nav-item ml-3 text-uppercase">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
+                    <a class="nav-link" href="{% url 'pages:contact' %}">Contact Us</a>
                 </li>
                 <li class="nav-item ml-3 text-uppercase">
                     <a class="nav-link btn btn-secondary text-white px-3" href="tenant-login.html">
