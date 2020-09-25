@@ -142,7 +142,9 @@
                 <ul class="mb-4">
                     <li>Rent: ${{ listing.monthly_rent|intcomma }}</li>
                     <li>Security Deposit: ${{ listing.security_deposit|intcomma }}</li>
-                    <li>Available: {{ listing.available_date|date:'F j, Y' }}</li>
+                    {% if listing.show_available_date %}
+                        <li>Available: {{ listing.available_date|date:'F j, Y' }}</li>
+                    {% endif %}
                 </ul>
                 {% if listing.cats_allowed %}
                     <p><i class="fas fa-cat h5 mr-2"></i>Cats Allowed</p>
@@ -244,7 +246,6 @@
 {% block extrascripts %}
     <script>
         function initMap() {
-            // Gather variables
             const listingLatitude = {{ listing.latitude }};
             const listingLongitude = {{ listing.longitude }};
             const listingTitle = "{{ listing.title }}";

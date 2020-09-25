@@ -40,6 +40,10 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.listing-card-info {
+    height: 100%;
+}
+
 /* PROPERTY DETAILS PAGE */
 .main-house-image {
     max-width: 100%;
@@ -49,12 +53,14 @@
     cursor: pointer;
 }
 
-#listing-map {
+#listing-map,
+#listing-list-map {
     width: 100%;
 }
 
 @media screen and (min-width: 768px) {
-    #listing-map {
+    #listing-map,
+    #listing-list-map {
         height: 500px;
     }
 }

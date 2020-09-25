@@ -21,8 +21,8 @@ class Listing(models.Model):
     city = models.CharField(verbose_name='City', max_length=100)
     state = models.CharField(verbose_name='State', max_length=100)
     zipcode = models.CharField(verbose_name='ZIP Code', max_length=20)
-    latitude = models.FloatField(default=0)
-    longitude = models.FloatField(default=0)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     bedrooms = models.IntegerField(default=0)
     bathrooms = models.FloatField(default=0)
     has_garage = models.BooleanField(default=False)
@@ -37,6 +37,7 @@ class Listing(models.Model):
                                           help_text='Indicates when this property will become available to rent.',
                                           default=datetime.now,
                                           blank=True)
+    show_available_date = models.BooleanField(verbose_name='Show availability date on website?', default=False)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
     main_image = models.ImageField(upload_to='photos/%Y/%m/%d/')
