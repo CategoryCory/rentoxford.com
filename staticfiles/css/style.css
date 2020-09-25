@@ -16,6 +16,17 @@
     }
 }
 
+.footer-info {
+    margin: 4px 0;
+}
+
+.footer-info__icon {
+    width: 50px;
+    display: inline-block;
+    text-align: center;
+    font-size: 1.25rem;
+}
+
 /* HOME PAGE */
 
 .hero {
