@@ -34,11 +34,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item ml-3 active">
+                <li class="nav-item ml-3 {% if request.resolver_match.view_name == 'pages:home' %}active{% endif %}">
                     <a class="nav-link text-uppercase" href="{% url 'pages:home' %}">
-                        Home <span class="sr-only">(current)</span></a>
+                        Home {% if request.resolver_match.view_name == 'pages:home' %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
-                <li class="nav-item ml-3 dropdown">
+                <li class="nav-item ml-3 dropdown {% if request.resolver_match.view_name == 'listings:listing_list' %}active{% endif %}">
                     <a
                         class="nav-link text-uppercase dropdown-toggle"
                         href="#"
@@ -48,18 +49,20 @@
                         aria-haspopup="true"
                         aria-expanded="false"
                     >
-                        Properties
+                        Properties {% if request.resolver_match.view_name == 'listings:listing_list' %}<span class="sr-only">(current)</span>{% endif %}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'listings:listing_list' %}">Available Rentals</a>
-                        <a class="dropdown-item" href="communities.html">Communities</a>
+                        <a class="dropdown-item" href="{% url 'pages:communities' %}">Communities</a>
                     </div>
                 </li>
                 <li class="nav-item ml-3 text-uppercase">
                     <a class="nav-link" href="https://collegetownstoragecompany.com/">Self Storage</a>
                 </li>
-                <li class="nav-item ml-3 text-uppercase">
-                    <a class="nav-link" href="{% url 'pages:contact' %}">Contact Us</a>
+                <li class="nav-item ml-3 text-uppercase {% if request.resolver_match.view_name == 'pages:contact' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'pages:contact' %}">
+                        Contact Us {% if request.resolver_match.view_name == 'pages:contact' %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
                 <li class="nav-item ml-3 text-uppercase">
                     <a class="nav-link btn btn-secondary text-white px-3" href="tenant-login.html">

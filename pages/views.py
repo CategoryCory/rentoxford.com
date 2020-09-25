@@ -14,3 +14,7 @@ class ContactPageView(SuccessMessageMixin, CreateView):
     template_name = 'pages/contact.html'
     success_url = reverse_lazy('pages:contact')
     success_message = 'Thank you for contacting us! We will be in touch with you soon.'
+
+
+class CommunitiesPageView(TemplateView):
+    template_name = 'pages/communities.html'

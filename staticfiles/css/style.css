@@ -20,6 +20,10 @@
     margin: 4px 0;
 }
 
+.text-light-gray {
+    color: #bac0c7;
+}
+
 .footer-info__icon {
     width: 50px;
     display: inline-block;
@@ -97,6 +101,16 @@
 #listing-map,
 #listing-list-map {
     width: 100%;
+}
+
+/* COMMUNITIES PAGE */
+.responsive-heading-text {
+    font-size: calc(2rem + 3vw);
+}
+
+.communities-page-image {
+    width: 100%;
+    max-width: 550px;
 }
 
 /* CONTACT PAGE */
