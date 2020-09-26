@@ -7,11 +7,11 @@
 {% block content %}
 <div class="container-fluid my-4 px-4 py-4">
     <div class="row justify-content-center">
-        <div class="col-10 col-sm-6 col-xl-5 d-flex justify-content-center align-items-center mb-4 px-4">
-            <img src="{% static 'img/contact_us_img.svg' %}" class="contact-page-image"/>
+        <div class="d-none d-md-flex col-md-4 col-lg-5 justify-content-center align-items-center mb-4 px-4">
+            <img src="{% static 'img/contact_us_img.svg' %}" class="form-page-image"/>
         </div>
-        <div class="col-10 col-md-6 col-xl-5 px-4">
-            <h2>We'd love to hear from you!</h2>
+        <div class="col-10 col-md-6 col-xl-4 px-4">
+            <h2 class="responsive-heading-text">We'd love to hear from you!</h2>
             <p class="lead">Please fill out the form below and we will reach out to you.</p>
             <hr>
             {% if messages %}

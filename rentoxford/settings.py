@@ -161,7 +161,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # User model setup
 AUTH_USER_MODEL = 'users.CustomUser'
-LOGIN_REDIRECT_URL = 'pages:home'
+LOGIN_REDIRECT_URL = 'users:user_dashboard'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'pages:home'
 
 # Django allauth setup

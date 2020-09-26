@@ -11,6 +11,8 @@ class CustomUser(AbstractUser):
                                       help_text='Designates whether this user has been approved.',
                                       default=False)
     property = models.ForeignKey(Listing, on_delete=models.SET_NULL, null=True, blank=True)
+    lease_begin = models.DateField(default=timezone.now)
+    lease_end = models.DateField(default=timezone.now)
     monthly_rent = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     def __str__(self):

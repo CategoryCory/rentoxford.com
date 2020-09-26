@@ -105,17 +105,21 @@
 
 /* COMMUNITIES PAGE */
 .responsive-heading-text {
-    font-size: calc(2rem + 3vw);
+    font-size: calc(2rem + 1.5vw);
 }
 
-.communities-page-image {
-    width: 100%;
-    max-width: 550px;
+@media screen and (min-width: 576px) {
+    .form-page-image {
+        width: 100%;
+        max-width: 550px;
+    }
 }
 
-/* CONTACT PAGE */
-.contact-page-image {
-    max-width: 500px;
+@media screen and (max-width: 575px) {
+    .form-page-image {
+        width: 100%;
+        max-width: 250px;
+    }
 }
 
 @media screen and (min-width: 768px) {
