@@ -64,11 +64,22 @@
                         Contact Us {% if request.resolver_match.view_name == 'pages:contact' %}<span class="sr-only">(current)</span>{% endif %}
                     </a>
                 </li>
-                <li class="nav-item ml-3 text-uppercase">
-                    <a class="nav-link btn btn-secondary text-white px-3" href="{% url 'account_login' %}">
-                        <i class="fas fa-sign-in-alt mr-2"></i>Tenant Login
-                    </a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item ml-3 text-uppercase {% if request.resolver_match.view_name == 'users:user_dashboard' %}active{% endif %}">
+                        <a href="{% url 'users:user_dashboard' %}" class="nav-link">
+                            Dashboard {% if request.resolver_match.view_name == 'users:user_dashboard' %}<span class="sr-only">(current)</span>{% endif %}
+                        </a>
+                    </li>
+                    <li class="nav-item ml-3 text-uppercase">
+                        <a href="{% url 'account_logout' %}" class="nav-link"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item ml-3 text-uppercase">
+                        <a class="nav-link btn btn-secondary text-white px-3" href="{% url 'account_login' %}">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Tenant Login
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
