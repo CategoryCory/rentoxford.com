@@ -186,6 +186,9 @@ ACCOUNT_UNIQUE_EMAIL = True
 # Google Maps
 MAPS_API_KEY = env('MAPS_API_KEY')
 
+# Stripe API secret key
+STRIPE_API_SECRET_KEY = env('STRIPE_API_SECRET_KEY')
+
 # Crispy Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

@@ -30,7 +30,7 @@
                 <li class="list-group-item">Lease Begins: {{ user.lease_begin|date:'F j, Y' }}</li>
                 <li class="list-group-item">Lease Ends: {{ user.lease_end|date:'F j, Y' }}</li>
             </ul>
-            <a href="{% url 'payments:payment_amount' %}" class="btn btn-secondary">
+            <a href="{% url 'payments:payment_amount' %}" class="btn btn-primary">
                 <i class="far fa-credit-card mr-2"></i>Make a Rent Payment
             </a>
         </div>

@@ -1,7 +1,10 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+
+import stripe
 
 from users.forms import PaymentAmountForm
 
@@ -14,7 +17,7 @@ def payment_amount(request):
         form = PaymentAmountForm(request.POST)
         if form.is_valid():
             # create payment intent and go to payment page
-            pass
+            stripe.api_key = settings.STRIPE_API_SECRET_KEY
         else:
             # redisplay page with form errors
             messages.add_message(
