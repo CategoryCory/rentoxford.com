@@ -11,7 +11,8 @@
             </div>
             <div class="col-10 col-md-6 col-xl-4 px-4 d-flex flex-column justify-content-center">
                 <h2 class="responsive-heading-text">Your Payment Amount</h2>
-                <form method="post">
+                {% include 'partials/_alerts.html' %}
+                <form method="post" novalidate>
                     {% csrf_token %}
                     {{ form|crispy }}
                     <div class="form-check mb-3">
@@ -34,7 +35,7 @@
         const paymentAmountInput = document.getElementById('{{ form.amount.auto_id }}');
         const submitPaymentButton = document.getElementById('submitPayment');
 
-        submitPaymentButton.disabled = true;
+        //submitPaymentButton.disabled = true;
 
         payFullAmountCheckbox.addEventListener('change', function(e) {
             const inputEvent = new Event('input', {
@@ -54,14 +55,14 @@
         paymentAmountInput.addEventListener('input', function(e) {
             const currentPmtAmount = paymentAmountInput.value;
             if (currentPmtAmount.length === 0 || isNaN(currentPmtAmount)) {
-                submitPaymentButton.disabled = true;
+                //submitPaymentButton.disabled = true;
                 return;
             }
 
             if (parseFloat(currentPmtAmount) > 0) {
-                submitPaymentButton.disabled = false;
+                //submitPaymentButton.disabled = false;
             } else {
-                submitPaymentButton.disabled = true;
+                //submitPaymentButton.disabled = true;
             }
         });
     </script>

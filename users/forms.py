@@ -20,4 +20,4 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class PaymentAmountForm(forms.Form):
-    amount = forms.DecimalField(label='Please specify the amount you\'d like to pay', required=True, min_value=0)
+    amount = forms.DecimalField(label='Please specify the amount you\'d like to pay', required=True, min_value=0.01)

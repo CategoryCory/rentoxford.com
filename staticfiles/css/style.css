@@ -106,6 +106,7 @@
 /* COMMUNITIES PAGE */
 .responsive-heading-text {
     font-size: calc(2rem + 1.5vw);
+    color: #212d3a;
 }
 
 @media screen and (min-width: 576px) {
