@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 import environ
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     'listings.apps.ListingsConfig',
     'maintenance_requests.apps.MaintenanceRequestsConfig',
     'contacts.apps.ContactsConfig',
+    'payments.apps.PaymentsConfig',
 ]
 
 MIDDLEWARE = [
@@ -186,3 +188,8 @@ MAPS_API_KEY = env('MAPS_API_KEY')
 
 # Crispy Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}

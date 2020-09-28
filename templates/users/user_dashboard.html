@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% load humanize %}
 
 {% block title %} | Dashboard{% endblock title %}
 
 {% block content %}
+{% include 'partials/_alerts.html' %}
 <div class="container my-5">
     <h2 class="responsive-heading-text">
         {% if user.first_name %}
@@ -18,17 +20,19 @@
         <div class="col-12">
             <h3>My Property</h3>
         </div>
-        <div class="col-4 d-flex align-items-center">
+        <div class="col-10 col-md-4 d-flex align-items-start my-3">
             <img src="{{ user.property.main_image.url }}" class="w-100 rounded">
         </div>
-        <div class="col-8">
+        <div class="col-10 col-md-8">
             <h4 class="text-secondary">{{ user.property.street_address }}</h4>
             <ul class="list-group mb-4">
                 <li class="list-group-item">Monthly Rent: ${{ user.monthly_rent|intcomma }}</li>
                 <li class="list-group-item">Lease Begins: {{ user.lease_begin|date:'F j, Y' }}</li>
                 <li class="list-group-item">Lease Ends: {{ user.lease_end|date:'F j, Y' }}</li>
             </ul>
-            <a href="#" class="btn btn-secondary"><i class="far fa-credit-card mr-2"></i>Make a Rent Payment</a>
+            <a href="{% url 'payments:payment_amount' %}" class="btn btn-secondary">
+                <i class="far fa-credit-card mr-2"></i>Make a Rent Payment
+            </a>
         </div>
     </div>
 </div>

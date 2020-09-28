@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+    <div class="container-fluid my-4 p-4">
+        <div class="row justify-content-center">
+            <div class="d-none d-md-flex col-md-4 col-lg-5 justify-content-center align-items-center mb-4 px-4">
+                <img src="{% static 'img/mobile_pay.svg' %}" class="form-page-image"/>
+            </div>
+            <div class="col-10 col-md-6 col-xl-4 px-4 d-flex flex-column justify-content-center">
+                <h2 class="responsive-heading-text">Your Payment Amount</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="form-check mb-3">
+                        <input type="checkbox" id="chkFullAmount" class="form-check-input" value="{{ base_rent }}">
+                        <label for="chkFullAmount" class="form-check-label">
+                            Pay full amount of ${{ base_rent|intcomma }}
+                        </label>
+                    </div>
+                    <button type="submit" id="submitPayment" class="btn btn-secondary">Go to Payment Page</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extrascripts %}
+    <script>
+        const paymentForm = document.getElementById('paymentForm');
+        const payFullAmountCheckbox = document.getElementById('chkFullAmount');
+        const paymentAmountInput = document.getElementById('{{ form.amount.auto_id }}');
+        const submitPaymentButton = document.getElementById('submitPayment');
+
+        submitPaymentButton.disabled = true;
+
+        payFullAmountCheckbox.addEventListener('change', function(e) {
+            const inputEvent = new Event('input', {
+                bubbles: true,
+                cancelable: true,
+            });
+
+            if (this.checked) {
+                paymentAmountInput.value = {{ user.monthly_rent }};
+            } else {
+                paymentAmountInput.value = "";
+            }
+
+            paymentAmountInput.dispatchEvent(inputEvent);
+        });
+
+        paymentAmountInput.addEventListener('input', function(e) {
+            const currentPmtAmount = paymentAmountInput.value;
+            if (currentPmtAmount.length === 0 || isNaN(currentPmtAmount)) {
+                submitPaymentButton.disabled = true;
+                return;
+            }
+
+            if (parseFloat(currentPmtAmount) > 0) {
+                submitPaymentButton.disabled = false;
+            } else {
+                submitPaymentButton.disabled = true;
+            }
+        });
+    </script>
+{% endblock extrascripts %}
