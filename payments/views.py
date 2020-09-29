@@ -4,8 +4,6 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
-import stripe
-
 from users.forms import PaymentAmountForm
 
 
@@ -16,8 +14,8 @@ def payment_amount(request):
     if request.method == 'POST':
         form = PaymentAmountForm(request.POST)
         if form.is_valid():
-            # create payment intent and go to payment page
-            stripe.api_key = settings.STRIPE_API_SECRET_KEY
+            # redirect to payment page with amount
+            pass
         else:
             # redisplay page with form errors
             messages.add_message(
@@ -30,16 +28,3 @@ def payment_amount(request):
         form = PaymentAmountForm()
 
     return render(request, 'payments/payment_amount.html', {'form': form, 'base_rent': current_user.monthly_rent})
-
-
-@login_required
-def create_payment_intent(request):
-    if request.method == 'POST':
-        payment_amount_form = PaymentAmountForm(request.POST)
-        if payment_amount_form.is_valid():
-            amount = payment_amount_form.cleaned_data['amount']
-            return HttpResponse('You are paying ' + str(amount))
-        else:
-            return HttpResponse('There was a problem with the form!')
-    else:
-        return redirect('pages:home')
