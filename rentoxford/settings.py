@@ -166,9 +166,20 @@ AUTH_USER_MODEL = 'users.CustomUser'
 LOGIN_REDIRECT_URL = 'users:user_dashboard'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'pages:home'
 
-# Django allauth setup
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Emails
+if DEBUG is True:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'admin@rentoxford.com'
+CONTACT_FORM_EMAIL_TO = env('CONTACT_FORM_EMAIL_TO')
 
+# Django allauth setup
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -182,6 +193,10 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_FORMS = {
+    'signup': 'users.forms.CustomAllauthUserCreationForm',
+}
 
 # Google Maps
 MAPS_API_KEY = env('MAPS_API_KEY')
