@@ -1,27 +1,26 @@
 /* SITEWIDE STYLES */
-@media screen and (min-width: 550px) {
-    .navbar-brand img {
-        width: 375px;
-    }
+html {
+    position: relative;
+    min-height: 100%;
 }
 
-@media screen and (max-width: 549px) {
-    .navbar-brand {
-        display: block;
-        margin: 0 auto;
-    }
-
-    .navbar-brand img {
-        width: 250px;
-    }
+body {
+    margin-bottom: 300px;
 }
 
-.footer-info {
-    margin: 4px 0;
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 250px;
 }
 
 .text-light-gray {
     color: #bac0c7;
+}
+
+.footer-info {
+    margin: 4px 0;
 }
 
 .footer-info__icon {
@@ -32,7 +31,6 @@
 }
 
 /* HOME PAGE */
-
 .hero {
     min-height: 500px;
     background: linear-gradient(
@@ -59,18 +57,6 @@
             rgba(0, 0, 0, 0.5) 100%
     );
     padding: 0.35em 0.5em;
-}
-
-@media screen and (min-width: 1440px) {
-    .img-overlay-address {
-        font-size: 1.2rem;
-    }
-}
-
-@media screen and (max-width: 1439px) {
-    .img-overlay-address {
-        font-size: 1rem;
-    }
 }
 
 .img-overlay-available {
@@ -109,17 +95,16 @@
     color: #212d3a;
 }
 
-@media screen and (min-width: 576px) {
-    .form-page-image {
-        width: 100%;
-        max-width: 550px;
+/* MEDIA QUERIES */
+@media screen and (min-width: 1440px) {
+    .img-overlay-address {
+        font-size: 1.2rem;
     }
 }
 
-@media screen and (max-width: 575px) {
-    .form-page-image {
-        width: 100%;
-        max-width: 250px;
+@media screen and (max-width: 1439px) {
+    .img-overlay-address {
+        font-size: 1rem;
     }
 }
 
@@ -133,5 +118,41 @@
 @media screen and (max-width: 767px) {
     #listing-map {
         height: 400px;
+    }
+}
+
+@media screen and (min-width: 576px) {
+    .navbar-brand img {
+        width: 375px;
+    }
+
+    .form-page-image {
+        width: 100%;
+        max-width: 550px;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .navbar-brand {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .navbar-brand img {
+        width: 250px;
+    }
+
+    .form-page-image {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .footer h3 {
+        font-size: 1.25rem;
+    }
+
+    .footer-info,
+    .footer-copyright {
+        font-size: 0.85rem;
     }
 }
