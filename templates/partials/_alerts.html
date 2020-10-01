@@ -1,17 +1,19 @@
 {% if messages %}
     {% for message in messages %}
         <div id="message" class="container my-2">
-            <div class="alert alert-{{ message.tags }} alert-dismissable" role="alert">
-                <button type="button" class="close" data-dismiss="alert">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>
-                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                        Error:
-                    {% endif %}
-                </strong>
-            {{ message }}
-            </div>
+            <sl-alert type="{{ message.tags }}" open closable class="alert-closable">
+                <sl-icon
+                        slot="icon"
+                        {% if message.tags == 'success' %}
+                            name="check2-circle"
+                        {% elif message.tags == 'danger' %}
+                            name="exclamation-octagon"
+                        {% else %}
+                            name="info-circle"
+                        {% endif %}
+                ></sl-icon>
+                <strong>{{ message }}</strong>
+            </sl-alert>
         </div>
     {% endfor %}
 {% endif %}
