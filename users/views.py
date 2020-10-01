@@ -16,6 +16,12 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
     model = CustomUser
     template_name = 'users/user_dashboard.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        maintenance_requests = MaintenanceRequest.objects.filter(tenant=self.request.user)
+        context['maintenance_requests'] = maintenance_requests
+        return context
+
 
 class SubmitMaintenanceRequestView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = MaintenanceRequest

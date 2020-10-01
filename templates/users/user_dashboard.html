@@ -16,32 +16,69 @@
         {% endif %}
     </h2>
     <hr>
-    <div class="row bg-light p-4">
-        {% if user.is_approved %}
-            <div class="col-12">
-                <h3>My Property</h3>
+    {% if user.is_approved %}
+        <div class="row justify-content-center my-4">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">My Property</h3>
+                        <img src="{{ user.property.main_image.url }}" class="w-100 rounded">
+                        <h4 class="text-secondary my-3">{{ user.property.street_address }}, {{ user.property.city }}, {{ user.property.state }} {{ user.property.zipcode }}</h4>
+                        <p class="card-text"><span class="h6">RENT: </span>${{ user.monthly_rent|intcomma }}</p>
+                        <p class="card-text"><span class="h6">LEASE BEGINS: </span>{{ user.lease_begin|date:'F j, Y' }}</p>
+                        <p class="card-text"><span class="h6">LEASE ENDS: </span>{{ user.lease_end|date:'F j, Y' }}</p>
+                        <a href="#" class="btn btn-primary btn-block">
+                            <i class="far fa-credit-card mr-2"></i>Make a Rent Payment
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="col-10 col-md-4 d-flex align-items-start my-3">
-                <img src="{{ user.property.main_image.url }}" class="w-100 rounded">
+            <div class="col-12 col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                            <h3 class="my-2 p-0">My Maintenance Requests</h3>
+                            <a href="{% url 'users:submit_maintenance_request' %}" class="btn btn-primary btn-sm my-2">
+                                <i class="fas fa-plus mr-2"></i>New Maintenance Request
+                            </a>
+                        </div>
+                        {% if maintenance_requests|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-striped table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Date Submitted</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for maint_req in maintenance_requests %}
+                                            <tr>
+                                                <td class="px-2">{{ maint_req.created_on|date:'M j, Y' }}</td>
+                                                <td class="px-2">{{ maint_req.description|truncatewords:8 }}</td>
+                                                <td class="px-2">{{ maint_req.status|title }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <hr>
+                            <p class="text-muted">You have not submitted any maintenance requests.</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <div class="col-10 col-md-8">
-                <h4 class="text-secondary">{{ user.property.street_address }}</h4>
-                <ul class="list-group mb-4">
-                    <li class="list-group-item">Monthly Rent: ${{ user.monthly_rent|intcomma }}</li>
-                    <li class="list-group-item">Lease Begins: {{ user.lease_begin|date:'F j, Y' }}</li>
-                    <li class="list-group-item">Lease Ends: {{ user.lease_end|date:'F j, Y' }}</li>
-                </ul>
-{#                <a href="#" class="btn btn-primary">#}
-{#                    <i class="far fa-credit-card mr-2"></i>Make a Rent Payment#}
-{#                </a>#}
-            </div>
-        {% else %}
+        </div>
+    {% else %}
+        <div class="container bg-light py-4">
             <p class="lead">Your account has not been set up yet!</p>
             <p>
                 The Oxford Property Management staff is still in the process of setting your account up.
                 Please check back later!
             </p>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 </div>
 {% endblock content %}
