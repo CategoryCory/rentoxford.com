@@ -14,16 +14,7 @@
             <h2 class="responsive-heading-text">We'd love to hear from you!</h2>
             <p class="lead">Please fill out the form below and we will reach out to you.</p>
             <hr>
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+            {% include 'partials/_alerts.html' %}
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}

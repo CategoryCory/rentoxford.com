@@ -18,10 +18,18 @@ class ContactPageView(SuccessMessageMixin, CreateView):
     success_message = 'Thank you for contacting us! We will be in touch with you soon.'
 
     def form_valid(self, form):
+        email_subject = 'Submission from RentOxford contact form'
+        email_body = (
+            f'There is a new submission from the contact form on RentOxford.com.\n'
+            f'Name: {form.cleaned_data.get("name")}\n'
+            f'Email Address: {form.cleaned_data.get("email_address")}\n'
+            f'Phone Number: {form.cleaned_data.get("phone_number")}\n'
+            f'Message: {form.cleaned_data.get("message")}'
+        )
         send_mail(
-            'Submission from contact form',
-            form.cleaned_data.get('message'),
-            'admin@rentoxford.com',
+            email_subject,
+            email_body,
+            settings.DEFAULT_FROM_EMAIL,
             [settings.CONTACT_FORM_EMAIL_TO],
             fail_silently=False
         )
