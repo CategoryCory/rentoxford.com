@@ -30,7 +30,7 @@ class ContactPageView(SuccessMessageMixin, CreateView):
             email_subject,
             email_body,
             settings.DEFAULT_FROM_EMAIL,
-            [settings.CONTACT_FORM_EMAIL_TO],
+            [settings.SEND_ADMIN_EMAIL_TO],
             fail_silently=True
         )
         return super().form_valid(form)
