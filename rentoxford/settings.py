@@ -35,7 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 if DEBUG is True:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'rentoxford.com', 'www.rentoxford.com', ]
 else:
     ALLOWED_HOSTS = ['rentoxford.com', 'www.rentoxford.com', ]
 
