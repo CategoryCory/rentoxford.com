@@ -8,60 +8,9 @@
 >
     <div id="search-form">
         <h2 class="display-4">Find Your Dream Property in Oxford</h2>
-        <form action="search-form.html">
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <select name="price" class="form-control" id="type">
-                        <option selected="true">Max Price (Any)</option>
-                        <option value="100000">$100,000</option>
-                        <option value="200000">$200,000</option>
-                        <option value="300000">$300,000</option>
-                        <option value="400000">$400,000</option>
-                        <option value="500000">$500,000</option>
-                        <option value="600000">$600,000</option>
-                        <option value="700000">$700,000</option>
-                        <option value="800000">$800,000</option>
-                        <option value="900000">$900,000</option>
-                        <option value="1000000">$1M+</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label class="sr-only">Bedrooms</label>
-                    <select name="bedrooms" class="form-control">
-                        <option selected="true">Bedrooms (All)</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5+</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label class="sr-only">Bathrooms</label>
-                    <select name="bathrooms" class="form-control">
-                        <option selected="true">Bathrooms (All)</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5+</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="keywords" class="sr-only">Keywords</label>
-                <input
-                    type="text"
-                    id="keywords"
-                    name="keywords"
-                    class="form-control"
-                    placeholder="Keyword (Pool, Garage, etc)"
-                />
-            </div>
-            <button class="btn btn-primary btn-block">
-                <i class="fas fa-search mr-2"></i>SEARCH
-            </button>
-        </form>
+        <a href="{% url 'listings:listing_list' %}" class="btn btn-primary btn-block btn-lg">
+            <i class="fas fa-home mr-3"></i>Check Out Our Listings
+        </a>
     </div>
 </section>
 
@@ -76,11 +25,10 @@
                 <div class="card-body">
                     <h5 class="card-title">PAY RENT ONLINE</h5>
                     <p class="card-text">
-                        Did you know that you can now pay your rent
-                        online? It's fast, easy, and secure, so why
-                        wait?
+                        Soon, you'll be able to pay your rent
+                        online! It's fast, easy, and secure!
                     </p>
-                    <a href="some-page.html" class="btn btn-secondary">Learn More</a>
+                    <a href="{% url 'pages:contact' %}" class="btn btn-secondary">Learn More</a>
                 </div>
             </div>
         </div>
@@ -92,7 +40,7 @@
                         View our available rental properties and submit
                         an application online quickly and easily.
                     </p>
-                    <a href="available-properties.html" class="btn btn-secondary">Learn More</a>
+                    <a href="{% url 'listings:listing_list' %}" class="btn btn-secondary">Learn More</a>
                 </div>
             </div>
         </div>
@@ -104,7 +52,7 @@
                         Have a house you'd like to sell? Receive a
                         written offer in 48 hours or less!
                     </p>
-                    <a href="some-page.html" class="btn btn-secondary">Learn More</a>
+                    <a href="{% url 'pages:contact' %}" class="btn btn-secondary">Learn More</a>
                 </div>
             </div>
         </div>

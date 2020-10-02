@@ -84,11 +84,17 @@
                             {% endif %}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{% url 'users:user_dashboard' %}"><i class="far fa-id-badge mr-2"></i>Dashboard</a>
+                            <a class="dropdown-item" href="{% url 'users:user_dashboard' %}">
+                                <i class="far fa-id-badge mr-2"></i>Dashboard
+                            </a>
                             {% if user.is_approved %}
-                                <a class="dropdown-item" href="{% url 'users:submit_maintenance_request' %}"><i class="fas fa-tools mr-2"></i>Submit Maintenance Request</a>
+                                <a class="dropdown-item" href="{% url 'users:submit_maintenance_request' %}">
+                                    <i class="fas fa-tools mr-2"></i>Submit Maintenance Request
+                                </a>
                             {% endif %}
-                            <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                            <a class="dropdown-item" href="{% url 'account_logout' %}">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
                         </div>
                     </li>
                 {% else %}
