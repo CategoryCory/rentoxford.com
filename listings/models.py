@@ -48,6 +48,10 @@ class Listing(models.Model):
     def get_absolute_url(self):
         return reverse('listing_detail', kwargs={'slug': self.slug})
 
+    @property
+    def full_address(self):
+        return f'{self.street_address}, {self.city}, {self.state} {self.zipcode}'
+
 
 class ListingGalleryImages(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, default=None)
