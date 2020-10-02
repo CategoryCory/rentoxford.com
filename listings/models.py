@@ -2,6 +2,8 @@ from django.db import models
 from datetime import datetime
 from django.urls import reverse
 
+from .helpers import geocode_address
+
 
 class Listing(models.Model):
     AVAILABLE = 'available'
@@ -51,6 +53,12 @@ class Listing(models.Model):
     @property
     def full_address(self):
         return f'{self.street_address}, {self.city}, {self.state} {self.zipcode}'
+
+    def save(self, *args, **kwargs):
+        lat_lng = geocode_address(self.street_address, self.state, self.state)
+        self.latitude = lat_lng['lat']
+        self.longitude = lat_lng['lng']
+        super(Listing, self).save(*args, **kwargs)
 
 
 class ListingGalleryImages(models.Model):
