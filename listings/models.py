@@ -40,7 +40,7 @@ class Listing(models.Model):
     show_available_date = models.BooleanField(verbose_name='Show availability date on website?', default=False)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
-    main_image = models.ImageField(upload_to='photos/%Y/%m/%d/')
+    main_image = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
 
     def __str__(self):
         return self.title

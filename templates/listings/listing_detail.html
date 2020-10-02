@@ -13,11 +13,19 @@
             <section class="container d-none d-md-block">
                 <div class="row flex-column align-items-center mt-4">
                     <div class="col">
-                        <img
-                            src="{{ listing.main_image.url }}"
-                            alt=""
-                            class="main-house-image rounded"
-                        />
+                        {% if listing.main_image %}
+                            <img
+                                src="{{ listing.main_image.url }}"
+                                alt=""
+                                class="main-house-image rounded"
+                            />
+                        {% else %}
+                            <img
+                                src="{% static 'img/default_house.jpg' %}"
+                                alt=""
+                                class="main-house-image rounded"
+                            />
+                        {% endif %}
                         {% if gallery_images_range|length > 0 %}
                             <div
                                 class="row align-items-center"
@@ -47,7 +55,11 @@
                 <div class="row justify-content-center">
                     <div class="col">
                         {% if gallery_images_range|length == 0 %}
-                            <img src="{{ listing.main_image.url }}" class="d-block w-100 rounded" />
+                            {% if listing.main_image %}
+                                <img src="{{ listing.main_image.url }}" class="d-block w-100 rounded" />
+                            {% else %}
+                                <img src="{% static 'img/default_house.jpg' %}" class="d-block w-100 rounded" />
+                            {% endif %}
                         {% else %}
                             <div
                                 id="house-gallery-mobile-indicators"
@@ -251,10 +263,11 @@
             const listingTitle = "{{ listing.title }}";
 
             const listingPosition = { lat: listingLatitude, lng: listingLongitude };
+            const oxfordPosition = { lat: 34.3668, lng: -89.5186 };
             const mapDiv = document.getElementById('listing-map');
             const mapOptions = {
-                zoom: 14,
-                center: listingPosition,
+                zoom: 13,
+                center: oxfordPosition,
             };
             const map = new google.maps.Map(mapDiv, mapOptions);
 

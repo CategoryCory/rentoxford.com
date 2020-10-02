@@ -22,7 +22,11 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">My Property</h3>
-                        <img src="{{ user.property.main_image.url }}" class="w-100 rounded">
+                        {% if user.property.main_image %}
+                            <img src="{{ user.property.main_image.url }}" class="w-100 rounded">
+                        {% else %}
+                            <img src="{% static 'img/default_house.jpg' %}" class="w-100 rounded">
+                        {% endif %}
                         <h4 class="text-secondary my-3">{{ user.property.street_address }}, {{ user.property.city }}, {{ user.property.state }} {{ user.property.zipcode }}</h4>
                         <p class="card-text"><span class="h6">RENT: </span>${{ user.monthly_rent|intcomma }}</p>
                         <p class="card-text"><span class="h6">LEASE BEGINS: </span>{{ user.lease_begin|date:'F j, Y' }}</p>
