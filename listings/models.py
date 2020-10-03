@@ -55,9 +55,12 @@ class Listing(models.Model):
         return f'{self.street_address}, {self.city}, {self.state} {self.zipcode}'
 
     def save(self, *args, **kwargs):
-        lat_lng = geocode_address(self.street_address, self.state, self.state)
-        self.latitude = lat_lng['lat']
-        self.longitude = lat_lng['lng']
+        try:
+            lat_lng = geocode_address(self.street_address, self.state, self.state)
+            self.latitude = lat_lng['lat']
+            self.longitude = lat_lng['lng']
+        except Exception:
+            print(f'Geocoding failed for {self.full_address}')
         super(Listing, self).save(*args, **kwargs)
 
 
