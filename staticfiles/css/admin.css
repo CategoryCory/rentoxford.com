@@ -1,0 +1,49 @@
+#header {
+    background-color: rgba(119, 136, 153, 0.5);
+}
+
+.brand_img {
+    width: 275px;
+}
+
+#container #user-tools,
+#container #user-tools a {
+    font-size: 0.8rem;
+    color: rgba(33, 45, 58, 1);
+    text-decoration: none;
+}
+
+#container #user-tools a:hover {
+    color: rgba(196, 30, 58, 1);
+}
+
+#container .module caption,
+#container .breadcrumbs {
+    background-color: rgba(33, 45, 58, 0.8);
+}
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+a.button {
+    background-color: rgba(33, 45, 58, 1);
+}
+
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.submit-row input:hover,
+a.button:hover {
+    background-color: rgba(33, 45, 58, 0.7);
+}
+
+.submit-row input.default,
+#login-form .submit-row input {
+    background-color: rgba(196, 30, 58, 1);
+}
+
+.submit-row input.default:hover,
+#login-form .submit-row input:hover {
+    background-color: rgba(196, 30, 58, 0.7);
+}
