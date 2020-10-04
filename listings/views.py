@@ -8,7 +8,7 @@ class ListingListView(ListView):
 
     model = Listing
     paginate_by = 6
-    ordering = ['-created_on', ]
+    queryset = Listing.objects.filter(is_published=True).order_by('-created_on')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

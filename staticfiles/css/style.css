@@ -84,6 +84,11 @@ body {
     cursor: pointer;
 }
 
+.listing-social-link,
+.listing-social-link:hover {
+    text-decoration: none;
+}
+
 #listing-map,
 #listing-list-map {
     width: 100%;

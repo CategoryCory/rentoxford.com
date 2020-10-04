@@ -9,8 +9,9 @@ class ImageInline(admin.TabularInline):
 
 
 class ListingAdmin(admin.ModelAdmin):
-    list_display = ['title', 'monthly_rent', 'availability', ]
-    list_editable = ['availability', ]
+    list_display = ['title', 'monthly_rent', 'availability', 'is_published', ]
+    list_editable = ['availability', 'is_published', ]
+    list_filter = ['availability', ]
     search_fields = ['title', 'description', ]
     list_per_page = 25
     prepopulated_fields = {'slug': ('title', )}

@@ -52,7 +52,7 @@
                                         </div>
                                         <div class="col-4 d-flex flex-column align-items-center mb-3">
                                             <i class="fas fa-bath text-muted"></i>
-                                            {{ listing.bathrooms }} baths
+                                            {{ listing.bathrooms|floatformat }} baths
                                         </div>
                                         <div class="col-4 d-flex flex-column align-items-center mb-3">
                                             <i class="fas fa-ruler-combined text-muted"></i>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 {% empty %}
-                    <div class="container d-flex flex-column bg-light">
+                    <div class="d-flex flex-column p-3 bg-light">
                         <h2>No Listings</h2>
                         <p class="lead">There are currently no listings available. Please check back later.</p>
                     </div>
