@@ -27,9 +27,21 @@
             <form method="post" novalidate>
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                <button id="maint-form-submit" type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-paper-plane mr-2"></i>Submit
+                </button>
             </form>
         </div>
     </div>
 </div>
 {% endblock content %}
+
+{% block extrascripts %}
+    <script>
+        const submitButton = document.getElementById('maint-form-submit');
+        submitButton.addEventListener('click', function (e) {
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner mr-2 wait-spinner"></i>Please wait...';
+        });
+    </script>
+{% endblock extrascripts %}

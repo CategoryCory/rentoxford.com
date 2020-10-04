@@ -100,6 +100,20 @@ body {
     color: #212d3a;
 }
 
+/* ANIMATIONS FOR DISABLED BUTTONS */
+.wait-spinner {
+    animation: rotation 1500ms infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 1440px) {
     .img-overlay-address {
