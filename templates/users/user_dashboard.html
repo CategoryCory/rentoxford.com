@@ -22,18 +22,23 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">My Property</h3>
-                        {% if user.property.main_image %}
-                            <img src="{{ user.property.main_image.url }}" class="w-100 rounded">
+                        <hr>
+                        {% if not current_lease %}
+                            <h6>You do not have any leases at this time.</h6>
                         {% else %}
-                            <img src="{% static 'img/default_house.jpg' %}" class="w-100 rounded">
-                        {% endif %}
-                        <h4 class="text-secondary my-3">{{ user.property.full_address }}</h4>
-                        <p class="card-text"><span class="h6">RENT: </span>${{ user.monthly_rent|intcomma }}</p>
-                        <p class="card-text"><span class="h6">LEASE BEGINS: </span>{{ user.lease_begin|date:'F j, Y' }}</p>
-                        <p class="card-text"><span class="h6">LEASE ENDS: </span>{{ user.lease_end|date:'F j, Y' }}</p>
+                            {% if current_lease.property.main_image %}
+                                <img src="{{ current_lease.property.main_image.url }}" class="w-100 rounded">
+                            {% else %}
+                                <img src="{% static 'img/default_house.jpg' %}" class="w-100 rounded">
+                            {% endif %}
+                            <h4 class="text-secondary my-3">{{ current_lease.property.full_address }}</h4>
+                            <p class="card-text"><span class="h6">RENT: </span>${{ current_lease.monthly_rent|intcomma }}</p>
+                            <p class="card-text"><span class="h6">LEASE BEGINS: </span>{{ current_lease.lease_begin|date:'F j, Y' }}</p>
+                            <p class="card-text"><span class="h6">LEASE ENDS: </span>{{ current_lease.lease_end|date:'F j, Y' }}</p>
 {#                        <a href="#" class="btn btn-primary btn-block">#}
 {#                            <i class="far fa-credit-card mr-2"></i>Make a Rent Payment#}
 {#                        </a>#}
+                        {% endif %}
                     </div>
                 </div>
             </div>

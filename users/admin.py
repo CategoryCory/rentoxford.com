@@ -17,7 +17,6 @@ class CustomUserAdmin(UserAdmin):
     list_per_page = 25
     fieldsets = (
         ('Account and Personal Information', {'fields': ('username', 'email', 'first_name', 'last_name', )}),
-        ('Tenant Information', {'fields': ('property', 'lease_begin', 'lease_end', 'monthly_rent', )}),
         ('Permissions', {'fields': ('is_active', 'is_approved', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Account Login Information', {'fields': ('last_login', 'date_joined', )}),
     )

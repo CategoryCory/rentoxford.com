@@ -6,8 +6,11 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from datetime import datetime
+from django.db.models import Q
 
 from maintenance_requests.models import MaintenanceRequest
+from leases.models import Lease
 
 CustomUser = get_user_model()
 
@@ -18,8 +21,15 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        today = datetime.today()
         maintenance_requests = MaintenanceRequest.objects.filter(tenant=self.request.user)
+        current_lease = Lease.objects.filter(
+            Q(lease_begin__lte=today) & Q(lease_end__gte=today),
+            tenant=self.request.user
+        )[:1]
         context['maintenance_requests'] = maintenance_requests
+        if current_lease:
+            context['current_lease'] = current_lease[0]
         return context
 
 

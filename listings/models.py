@@ -45,7 +45,7 @@ class Listing(models.Model):
     main_image = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
 
     def __str__(self):
-        return self.title
+        return self.full_address
 
     def get_absolute_url(self):
         return reverse('listing_detail', kwargs={'slug': self.slug})

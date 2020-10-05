@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
     'listings.apps.ListingsConfig',
+    'leases.apps.LeasesConfig',
     'maintenance_requests.apps.MaintenanceRequestsConfig',
     'contacts.apps.ContactsConfig',
     'payments.apps.PaymentsConfig',
