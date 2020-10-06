@@ -8,21 +8,29 @@ from .helpers import geocode_address
 class Listing(models.Model):
     AVAILABLE = 'available'
     RENTED = 'rented'
+    OXFORD_SCHOOLS = 'oxford_schools'
+    LAFAYETTE_COUNTY_SCHOOLS = 'lafayette_county_schools'
 
     AVAILABILITY_CHOICES = (
         (AVAILABLE, 'Available'),
         (RENTED, 'Rented'),
     )
 
+    SCHOOL_CHOICES = (
+        (OXFORD_SCHOOLS, 'Oxford Schools'),
+        (LAFAYETTE_COUNTY_SCHOOLS, 'Lafayette County Schools'),
+    )
+
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     monthly_rent = models.DecimalField(verbose_name='Monthly Rent', default=0, max_digits=8, decimal_places=2)
     security_deposit = models.DecimalField(verbose_name='Security Deposit', default=0, max_digits=8, decimal_places=2)
     street_address = models.CharField(verbose_name='Street Address', max_length=200)
     city = models.CharField(verbose_name='City', max_length=100)
     state = models.CharField(verbose_name='State', max_length=100)
     zipcode = models.CharField(verbose_name='ZIP Code', max_length=20)
+    school_district = models.CharField(max_length=50, choices=SCHOOL_CHOICES, default=OXFORD_SCHOOLS)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     bedrooms = models.IntegerField(default=0)

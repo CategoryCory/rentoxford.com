@@ -118,25 +118,11 @@
                 </div>
             </section><!-- IMAGE GALLERY - MOBILE / SMALL SCREENS -->
         </div>
-        <div class="col-12 col-lg-4 mt-4">
-            <h3 class="text-secondary">
-                {{ listing.full_address }}
-            </h3>
-            <p>
-                {{ listing.description }}
-            </p>
-        </div>
-    </div>
-</section><!-- IMAGE GALLERY AND INFORMATION BLOCK -->
-
-<!-- INFO BLOCK -->
-<section class="container my-4 py-3">
-    <div class="row justify-content-center">
-        <div
-            class="col-10 col-lg-4 bg-light d-flex flex-column align-items-center py-4 mb-4"
-        >
+        <div class="col-12 col-lg-4 bg-light d-flex flex-column align-items-center py-4 mt-4">
+            <h2 class="text-primary">{{ listing.title }}</h2>
+            <hr>
             <h5>RENT</h5>
-            <h2>${{ listing.monthly_rent|intcomma }}</h2>
+            <h3>${{ listing.monthly_rent|intcomma }}</h3>
             <div class="row justify-content-between my-2 w-100">
                 <div class="col-4 d-flex flex-column align-items-center mb-3">
                     <i class="fas fa-bed text-muted"></i>{{ listing.bedrooms }} beds
@@ -211,6 +197,12 @@
                 </div>
             </div>
         </div>
+    </div>
+</section><!-- IMAGE GALLERY AND INFORMATION BLOCK -->
+
+<!-- INFO BLOCK -->
+<section class="container my-4 py-3">
+    <div class="row justify-content-center my-3">
         <div class="col-10 col-lg-8 px-3">
             <div id="listing-map"></div>
         </div>
