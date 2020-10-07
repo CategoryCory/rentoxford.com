@@ -144,6 +144,9 @@
                         <li>Available: {{ listing.available_date|date:'F j, Y' }}</li>
                     {% endif %}
                 </ul>
+                {% if listing.has_fence %}
+                    <p><i class="fas fa-border-style h5 mr-2"></i>Fenced Yard</p>
+                {% endif %}
                 {% if listing.cats_allowed %}
                     <p><i class="fas fa-cat h5 mr-2"></i>Cats Allowed</p>
                 {% endif %}
