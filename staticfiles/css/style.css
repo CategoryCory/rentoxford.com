@@ -75,6 +75,57 @@ body {
     top: 2.5rem;
 }
 
+/* AVAILABLE RENTALS SEARCH FORM */
+.listing-search-form__group {
+    margin: 1em 0;
+    padding: 0 0.5em;
+}
+
+.listing-search-form__checkboxes {
+    margin: 1em;
+}
+
+.listing-search-form__button {
+    display: flex;
+    justify-content: center;
+}
+
+.listing-search-form__button button {
+    width: 70%;
+}
+
+@media screen and (min-width: 575px) {
+    .listing-search-form__inputs {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    .listing-search-form__checkboxes {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (min-width: 1050px) {
+    .listing-search-form {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .listing-search-form__button button {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .listing-search-form {
+        justify-content: center;
+    }
+}
+
 /* PROPERTY DETAILS PAGE */
 .main-house-image {
     max-width: 100%;
