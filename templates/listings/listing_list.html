@@ -5,13 +5,71 @@
 {% block title %} | Available Properties{% endblock title %}
 
 {% block content %}
+<!-- SEARCH FORM -->
+<div class="container-fluid bg-dark text-light py-3">
+    <form action="">
+        <div class="form-row justify-content-center">
+            <div class="col-12 col-md-4 col-lg-1 d-flex flex-column border-right px-3">
+                <label for="numBedrooms">Bedrooms</label>
+                <input type="number" id="numBedrooms" class="form-control form-control-sm" name="numBedrooms" min="0" placeholder="Any">
+            </div>
+            <div class="col-12 col-md-4 col-lg-1 d-flex flex-column pl-3">
+                <label for="minCost">Minimum Cost</label>
+                <input type="number" id="minCost" class="form-control form-control-sm" name="minCost" min="0" placeholder="Any">
+            </div>
+            <div class="col-12 col-md-4 col-lg-1 d-flex flex-column border-right pr-3">
+                <label for="maxCost">Maximum Cost</label>
+                <input type="number" id="maxCost" class="form-control form-control-sm" name="maxCost" min="0" placeholder="Any">
+            </div>
+            <div class="col-12 col-md-4 col-lg-1 d-flex flex-column align-items-start px-3">
+                <p class="m-0">Allows pets?</p>
+                <div class="d-flex flex-row align-items-center mt-3">
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" id="allowsCats" class="form-check-input" name="allowsCats" value="yes">
+                        <label for="allowsCats" class="form-check-label">Cats</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" id="allowsDogs" class="form-check-input" name="allowsDogs" value="yes">
+                        <label for="allowsDogs" class="form-check-label">Dogs</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-lg-1 d-flex border-left pl-3">
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" id="fencedYard" class="form-check-input" name="fencedYard" value="yes">
+                    <label for="fencedYard" class="form-check-label">Fenced yard?</label>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-lg-1 d-flex flex-column border-left px-3">
+                <label for="schoolDistrict">School District</label>
+                <select name="schoolDistrict" id="schoolDistrict" class="form-control form-control-sm">
+                    <option value="any">Any</option>
+                    {% for school in school_districts %}
+                        <option value="{{ school.0 }}">{{ school.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-md-4 col-lg-1 d-flex align-items-center border-left px-3">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- BREADCRUMBS -->
+<div class="container-fluid d-flex justify-content-end pt-4 px-5">
+    <a href="{% url 'pages:home' %}" class="text-dark">Home</a>
+    &nbsp;&gt;&nbsp;
+    <span class="text-primary">Available Properties</span>
+</div>
+
 <!-- PROPERTY LISTINGS -->
 <div class="container-fluid my-4">
     <div class="row">
         <div class="d-none d-lg-block col-lg-5">
             <div id="listing-list-map" class="position-sticky sticky-top sticky-offset"></div>
         </div>
-        <nav class="col-12 col-lg-7">
+        <div class="col-12 col-lg-7">
             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
 
                 {% for listing in listing_list %}

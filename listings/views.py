@@ -13,6 +13,7 @@ class ListingListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['maps_api_key'] = settings.MAPS_API_KEY
+        context['school_districts'] = Listing.SCHOOL_CHOICES
         return context
 
 

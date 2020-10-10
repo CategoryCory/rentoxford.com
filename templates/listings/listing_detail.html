@@ -5,6 +5,15 @@
 {% block title %} | {{ listing.title }}{% endblock title %}
 
 {% block content %}
+<!-- BREADCRUMBS -->
+<div class="container-fluid d-flex justify-content-end pt-4 px-5">
+    <a href="{% url 'pages:home' %}" class="text-dark">Home</a>
+    &nbsp;&gt;&nbsp;
+    <a href="{% url 'listings:listing_list' %}" class="text-dark">Available Properties</a>
+    &nbsp;&gt;&nbsp;
+    <span class="text-primary">{{ listing.title }}</span>
+</div>
+
 <!-- IMAGE GALLERY AND INFORMATION BLOCK -->
 <section class="container mt-4">
     <div class="row justify-content-center">
@@ -282,10 +291,17 @@
 
             const listingPosition = { lat: listingLatitude, lng: listingLongitude };
             const oxfordPosition = { lat: 34.3668, lng: -89.5186 };
+            let mapCenter;
+            if (listingPosition.lat === 0 && listingPosition.lng === 0) {
+                mapCenter = oxfordPosition;
+            } else {
+                mapCenter = listingPosition;
+            }
+
             const mapDiv = document.getElementById('listing-map');
             const mapOptions = {
                 zoom: 13,
-                center: oxfordPosition,
+                center: mapCenter,
             };
             const map = new google.maps.Map(mapDiv, mapOptions);
 
