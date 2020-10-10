@@ -227,6 +227,8 @@
             const map = new google.maps.Map(mapDiv, mapOptions);
 
             const listings = document.querySelectorAll('.listing-card');
+            const markerArray = new Array();
+
             listings.forEach((lst, index) => {
                const listingPosition = { lat: parseFloat(lst.dataset.lat), lng: parseFloat(lst.dataset.lng) };
                const title = lst.dataset.title;
@@ -236,11 +238,18 @@
                    map: map,
                    title: title,
                });
+
+               markerArray.push(listingMarker);
             });
+
+            const clusterImagePath = "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m";
+
+            const markerClusterer = new MarkerClusterer(map, markerArray, { imagePath: clusterImagePath });
         }
     </script>
     <script
         defer
         src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap">
     </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 {% endblock extrascripts %}
