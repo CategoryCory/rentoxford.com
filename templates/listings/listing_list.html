@@ -7,26 +7,56 @@
 {% block content %}
 <!-- SEARCH FORM -->
 <div class="container-fluid bg-dark text-light py-3">
+    {% include 'partials/_alerts.html' %}
     <form action="" class="listing-search-form">
         <div class="listing-search-form__inputs">
             <div class="listing-search-form__group">
                 <label for="numBedrooms">Bedrooms</label>
-                <input type="number" id="numBedrooms" class="form-control form-control-sm" name="numBedrooms" min="0" placeholder="Any">
+                <input
+                    type="number"
+                    id="numBedrooms"
+                    class="form-control form-control-sm"
+                    name="numBedrooms"
+                    min="0"
+                    value="{{ search_values.num_bedrooms }}"
+                    placeholder="Any"
+                >
             </div>
             <div class="listing-search-form__group">
                 <label for="minCost">Minimum Cost</label>
-                <input type="number" id="minCost" class="form-control form-control-sm" name="minCost" min="0" placeholder="Any">
+                <input
+                    type="number"
+                    id="minCost"
+                    class="form-control form-control-sm"
+                    name="minCost"
+                    min="0"
+                    value="{{ search_values.min_cost }}"
+                    placeholder="Any"
+                >
             </div>
             <div class="listing-search-form__group">
                 <label for="maxCost">Maximum Cost</label>
-                <input type="number" id="maxCost" class="form-control form-control-sm" name="maxCost" min="0" placeholder="Any">
+                <input
+                    type="number"
+                    id="maxCost"
+                    class="form-control form-control-sm"
+                    name="maxCost"
+                    min="0"
+                    value="{{ search_values.max_cost }}"
+                    placeholder="Any"
+                >
             </div>
             <div class="listing-search-form__group">
                 <label for="schoolDistrict">School District</label>
                 <select name="schoolDistrict" id="schoolDistrict" class="form-control form-control-sm">
                     <option value="any">Any</option>
                     {% for school in school_districts %}
-                        <option value="{{ school.0 }}">{{ school.1 }}</option>
+                        <option
+                            value="{{ school.0 }}"
+                            {% if search_values.school_district == school.0 %}selected{% endif %}
+                        >
+                            {{ school.1 }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
@@ -34,11 +64,25 @@
 
         <div class="listing-search-form__checkboxes">
             <div class="form-check form-check-inline">
-                <input type="checkbox" id="allowsPets" class="form-check-input" name="allowsPets" value="yes">
+                <input
+                    type="checkbox"
+                    id="allowsPets"
+                    class="form-check-input"
+                    name="allowsPets"
+                    value="yes"
+                    {% if search_values.allows_pets %}checked{% endif %}
+                >
                 <label for="allowsPets" class="form-check-label">Allows pets?</label>
             </div>
             <div class="form-check form-check-inline">
-                <input type="checkbox" id="fencedYard" class="form-check-input" name="fencedYard" value="yes">
+                <input
+                    type="checkbox"
+                    id="fencedYard"
+                    class="form-check-input"
+                    name="fencedYard"
+                    value="yes"
+                    {% if search_values.fenced_yard %}checked{% endif %}
+                >
                 <label for="fencedYard" class="form-check-label">Fenced yard?</label>
             </div>
         </div>
