@@ -7,8 +7,8 @@ UserModel = get_user_model()
 
 
 class Lease(models.Model):
-    tenant = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, blank=True)
-    property = models.ForeignKey(Listing, on_delete=models.SET_NULL, null=True, blank=True)
+    tenant = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    property = models.ForeignKey(Listing, on_delete=models.CASCADE)
     lease_begin = models.DateField(default=timezone.now)
     lease_end = models.DateField(default=timezone.now)
     monthly_rent = models.DecimalField(max_digits=8, decimal_places=2, default=0)

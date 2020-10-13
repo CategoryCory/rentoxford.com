@@ -8,7 +8,7 @@ from .models import Listing
 class ListingListView(ListView):
 
     model = Listing
-    paginate_by = 10
+    paginate_by = 100
 
     search_values = {}
 
