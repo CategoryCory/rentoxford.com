@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'leases.apps.LeasesConfig',
     'maintenance_requests.apps.MaintenanceRequestsConfig',
     'contacts.apps.ContactsConfig',
+    'transactions.apps.TransactionsConfig',
     'payments.apps.PaymentsConfig',
 ]
 
