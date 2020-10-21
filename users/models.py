@@ -3,13 +3,13 @@ from django.db import models
 from django.utils import timezone
 
 from listings.models import Listing
-# from leases.models import Lease
+from leases.models import Lease
 
 
 class CustomUser(AbstractUser):
     date_of_birth = models.DateField(default=timezone.now)
-    # lease = models.ForeignKey(Lease, on_delete=models.SET_NULL, null=True, blank=True)
-    # rent_amount = models.IntegerField(default=0)
+    lease = models.ForeignKey(Lease, on_delete=models.SET_NULL, null=True, blank=True)
+    rent_amount = models.IntegerField(default=0)
     is_approved = models.BooleanField(verbose_name='Approved',
                                       help_text='Designates whether this user has been approved.',
                                       default=False)
