@@ -4,7 +4,7 @@ from .models import Charge, Payment
 
 
 class ChargeAdmin(admin.ModelAdmin):
-    list_display = ['tenant', 'due_date', 'amount', 'balance', 'status', 'notes', ]
+    list_display = ['tenant', 'due_date', 'amount', 'balance', 'type', 'status', 'notes', ]
     list_filter = ['tenant', 'due_date', ]
     list_per_page = 25
 

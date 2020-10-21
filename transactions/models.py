@@ -9,6 +9,9 @@ class Charge(models.Model):
     DUE = 'due'
     PAID = 'paid'
     LATE = 'late'
+    RENT = 'rent'
+    LATE_1 = 'late_1'
+    LATE_2 = 'late_2'
 
     STATUS_CHOICES = (
         (DUE, 'Due'),
@@ -16,10 +19,17 @@ class Charge(models.Model):
         (LATE, 'Late'),
     )
 
+    TYPE_CHOICES = (
+        (RENT, 'Rent'),
+        (LATE_1, 'First Late Fee'),
+        (LATE_2, 'Second Late Fee'),
+    )
+
     tenant = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     due_date = models.DateField(default=timezone.now)
     amount = models.IntegerField(default=0)
     balance = models.IntegerField(default=0)
+    type = models.CharField(max_length=25, choices=TYPE_CHOICES, default=RENT)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default=DUE)
     parent_charge = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     notes = models.CharField(max_length=255, blank=True)
