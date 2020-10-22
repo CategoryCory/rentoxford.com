@@ -27,8 +27,8 @@ class Charge(models.Model):
 
     tenant = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     due_date = models.DateField(default=timezone.now)
-    amount = models.IntegerField(default=0)
-    balance = models.IntegerField(default=0)
+    amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    balance = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     type = models.CharField(max_length=25, choices=TYPE_CHOICES, default=RENT)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default=DUE)
     parent_charge = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
@@ -45,8 +45,8 @@ class Charge(models.Model):
 class Payment(models.Model):
     tenant = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    amount = models.IntegerField(default=0)
-    balance = models.IntegerField(default=0)
+    amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    balance = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     notes = models.CharField(max_length=255, blank=True)
     charges = models.ManyToManyField(Charge, related_name='lease_payments')
 

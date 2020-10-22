@@ -32,18 +32,59 @@
                                 <img src="{% static 'img/default_house.jpg' %}" class="w-100 rounded">
                             {% endif %}
                             <h4 class="text-secondary my-3">{{ current_lease.property.full_address }}</h4>
-                            <p class="card-text"><span class="h6">RENT: </span>${{ current_lease.monthly_rent|intcomma }}</p>
                             <p class="card-text"><span class="h6">LEASE BEGINS: </span>{{ current_lease.lease_begin|date:'F j, Y' }}</p>
                             <p class="card-text"><span class="h6">LEASE ENDS: </span>{{ current_lease.lease_end|date:'F j, Y' }}</p>
-{#                        <a href="#" class="btn btn-primary btn-block">#}
-{#                            <i class="far fa-credit-card mr-2"></i>Make a Rent Payment#}
-{#                        </a>#}
+                            {% if rent_display %}
+                                <p class="card-text"><span class="h6">RENT AMOUNT: </span>${{ rent_display|floatformat:2|intcomma }}</p>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
             </div>
             <div class="col-12 col-lg-8 mb-4">
-                <div class="card">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                            <h3 class="my-2 p-0">My Current Charges</h3>
+                            <a href="#" class="btn btn-primary btn-sm my-2">
+                                <i class="far fa-credit-card mr-2"></i>Make a Rent Payment
+                            </a>
+                        </div>
+                        {% if active_charges|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-striped table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Due Date</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Balance Remaining</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for chrg in active_charges %}
+                                            <tr>
+                                                <td class="px-2">{{ chrg.get_type_display }}</td>
+                                                <td class="px-2">{{ chrg.due_date|date:'F j, Y' }}</td>
+                                                <td class="px-2">${{ chrg.amount|intcomma }}</td>
+                                                <td class="px-2">${{ chrg.balance|intcomma }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <p class="d-flex justify-content-end align-items-baseline mb-0">
+                                    <span class="h5">Total Due: </span>
+                                    <span class="h3 text-bold ml-2">${{ total_due|intcomma }}</span>
+                                </p>
+                            </div>
+                        {% else %}
+                            <hr>
+                            <p class="text-muted">You have not submitted any maintenance requests.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card mb-4">
                     <div class="card-body">
                         <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
                             <h3 class="my-2 p-0">My Maintenance Requests</h3>

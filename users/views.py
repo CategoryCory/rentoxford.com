@@ -4,13 +4,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.conf import settings
 from django.core.mail import send_mail
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from datetime import datetime
-from django.db.models import Q
 
 from maintenance_requests.models import MaintenanceRequest
-from leases.models import Lease
+from transactions.models import Charge
 
 CustomUser = get_user_model()
 
@@ -23,13 +21,18 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         today = datetime.today()
         maintenance_requests = MaintenanceRequest.objects.filter(tenant=self.request.user)
-        current_lease = Lease.objects.filter(
-            Q(lease_begin__lte=today) & Q(lease_end__gte=today),
-            tenant=self.request.user
-        )[:1]
+        current_lease = self.request.user.lease
+        active_charges = Charge.objects.filter(
+            tenant=self.request.user,
+            due_date__lte=today,
+            balance__gt=0
+        ).order_by('due_date')
         context['maintenance_requests'] = maintenance_requests
-        if current_lease:
-            context['current_lease'] = current_lease[0]
+        context['current_lease'] = current_lease
+        context['active_charges'] = active_charges
+        context['total_due'] = sum(chrg.balance for chrg in active_charges)
+        if self.request.user.rent_amount > 0:
+            context['rent_display'] = self.request.user.rent_amount / 100.0
         return context
 
 
