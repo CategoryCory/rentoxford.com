@@ -26,7 +26,7 @@ class Lease(models.Model):
     lease_begin = models.DateField(default=timezone.now)
     lease_end = models.DateField(default=timezone.now)
     monthly_rent = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    initial_payment = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    initial_payment = models.DecimalField(max_digits=8, decimal_places=2, default=0, verbose_name='Security deposit')
     notes = models.TextField(blank=True)
 
     def __str__(self):
