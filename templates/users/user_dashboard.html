@@ -46,9 +46,11 @@
                     <div class="card-body">
                         <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
                             <h3 class="my-2 p-0">My Current Charges</h3>
-                            <a href="#" class="btn btn-primary btn-sm my-2">
-                                <i class="far fa-credit-card mr-2"></i>Make a Rent Payment
-                            </a>
+{#                            {% if total_due > 0 %}#}
+{#                                <a href="{% url 'payments:payment_amount' %}" class="btn btn-primary btn-sm my-2">#}
+{#                                    <i class="far fa-credit-card mr-2"></i>Make a Rent Payment#}
+{#                                </a>#}
+{#                            {% endif %}#}
                         </div>
                         {% if active_charges|length > 0 %}
                             <div class="table-responsive">
@@ -80,7 +82,7 @@
                             </div>
                         {% else %}
                             <hr>
-                            <p class="text-muted">You have not submitted any maintenance requests.</p>
+                            <p class="text-muted">You have no charges due at this time.</p>
                         {% endif %}
                     </div>
                 </div>

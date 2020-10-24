@@ -32,7 +32,7 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         context['active_charges'] = active_charges
         context['total_due'] = sum(chrg.balance for chrg in active_charges)
         if self.request.user.rent_amount > 0:
-            context['rent_display'] = self.request.user.rent_amount / 100.0
+            context['rent_display'] = self.request.user.rent_amount
         return context
 
 

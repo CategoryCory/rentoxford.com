@@ -8,8 +8,9 @@ from leases.models import Lease
 
 class CustomUser(AbstractUser):
     date_of_birth = models.DateField(default=timezone.now)
+    phone_number = models.CharField(max_length=30, blank=True)
     lease = models.ForeignKey(Lease, on_delete=models.SET_NULL, null=True, blank=True)
-    rent_amount = models.IntegerField(default=0)
+    rent_amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     is_approved = models.BooleanField(verbose_name='Approved',
                                       help_text='Designates whether this user has been approved.',
                                       default=False)

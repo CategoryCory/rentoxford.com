@@ -9,5 +9,9 @@ class Contact(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = 'Contact Us Response'
+        verbose_name_plural = 'Contact Us Responses'
+
     def __str__(self):
         return self.name

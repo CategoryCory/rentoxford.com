@@ -16,9 +16,9 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ['is_approved', ]
     list_per_page = 25
     fieldsets = (
-        ('Account and Personal Information', {'fields': ('username', 'email', 'first_name', 'last_name', )}),
+        ('Account and Personal Information', {'fields': ('username', 'email', 'first_name', 'last_name', 'phone_number', )}),
         ('Lease and Rent Information', {'fields': ('lease', 'rent_amount', )}),
-        ('Permissions', {'fields': ('is_active', 'is_approved', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Permissions', {'fields': ('is_active', 'is_approved', 'is_staff', 'is_superuser', 'groups', 'user_permissions', )}),
         ('Account Login Information', {'fields': ('last_login', 'date_joined', )}),
     )
 

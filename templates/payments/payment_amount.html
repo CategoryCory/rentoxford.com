@@ -12,13 +12,13 @@
             <div class="col-10 col-md-6 col-xl-4 px-4 d-flex flex-column justify-content-center">
                 <h2 class="responsive-heading-text">Your Payment Amount</h2>
                 {% include 'partials/_alerts.html' %}
-                <form method="post" novalidate>
+                <form method="post">
                     {% csrf_token %}
                     {{ form|crispy }}
                     <div class="form-check mb-3">
                         <input type="checkbox" id="chkFullAmount" class="form-check-input" value="{{ base_rent }}">
                         <label for="chkFullAmount" class="form-check-label">
-                            Pay full amount of ${{ base_rent|intcomma }}
+                            Pay full amount of ${{ total_owed|intcomma }}
                         </label>
                     </div>
                     <button type="submit" id="submitPayment" class="btn btn-primary">Go to Payment Page</button>
@@ -35,7 +35,7 @@
         const paymentAmountInput = document.getElementById('{{ form.amount.auto_id }}');
         const submitPaymentButton = document.getElementById('submitPayment');
 
-        //submitPaymentButton.disabled = true;
+        submitPaymentButton.disabled = true;
 
         payFullAmountCheckbox.addEventListener('change', function(e) {
             const inputEvent = new Event('input', {
@@ -44,7 +44,7 @@
             });
 
             if (this.checked) {
-                paymentAmountInput.value = {{ user.monthly_rent }};
+                paymentAmountInput.value = {{ total_owed }};
             } else {
                 paymentAmountInput.value = "";
             }
@@ -55,14 +55,14 @@
         paymentAmountInput.addEventListener('input', function(e) {
             const currentPmtAmount = paymentAmountInput.value;
             if (currentPmtAmount.length === 0 || isNaN(currentPmtAmount)) {
-                //submitPaymentButton.disabled = true;
+                submitPaymentButton.disabled = true;
                 return;
             }
 
             if (parseFloat(currentPmtAmount) > 0) {
-                //submitPaymentButton.disabled = false;
+                submitPaymentButton.disabled = false;
             } else {
-                //submitPaymentButton.disabled = true;
+                submitPaymentButton.disabled = true;
             }
         });
     </script>
