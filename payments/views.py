@@ -10,6 +10,7 @@ import stripe
 
 
 from transactions.models import Charge, Payment
+from leases.models import StripeKey
 from .forms import PaymentAmountForm
 
 
@@ -43,10 +44,13 @@ def payment_amount(request):
 
 @login_required
 def make_payment(request, amt):
+    stripe_pk = StripeKey.objects.filter(
+        company=request.user.lease.company
+    ).values('stripe_publishable_key')[0]['stripe_publishable_key']
     context = {
         'page_data': {
             'amt': amt,
-            'stripe_pk': settings.STRIPE_API_PUBLIC_KEY,
+            'stripe_pk': stripe_pk,
             'name': f'{request.user.first_name} {request.user.last_name}',
             'email': request.user.email,
             'phone': request.user.phone_number,
@@ -115,8 +119,11 @@ def payment_success(request):
 @login_required
 def get_payment_intent(request):
     if request.method == 'POST':
-        stripe.api_key = settings.STRIPE_API_SECRET_KEY
         try:
+            stripe_sk = StripeKey.objects.filter(
+                company=request.user.lease.company
+            ).values('stripe_secret_key')[0]['stripe_secret_key']
+            stripe.api_key = stripe_sk
             data = json.loads(request.body)
             intent = stripe.PaymentIntent.create(
                 amount=data['payment_amount'],

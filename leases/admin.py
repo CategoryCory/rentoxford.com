@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Company, Lease, LeaseDocument
+from .models import Company, Lease, LeaseDocument, StripeKey
 
 
 class LeaseDocumentInline(admin.TabularInline):
@@ -24,3 +24,4 @@ class CompanyAdmin(admin.ModelAdmin):
 
 admin.site.register(Lease, LeaseAdmin)
 admin.site.register(Company, CompanyAdmin)
+admin.site.register(StripeKey)

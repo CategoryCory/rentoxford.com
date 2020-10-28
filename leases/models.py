@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django_cryptography.fields import encrypt
 
 from listings.models import Listing
 
@@ -18,6 +19,15 @@ class Company(models.Model):
 
     class Meta:
         verbose_name_plural = 'Companies'
+
+
+class StripeKey(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    stripe_publishable_key = encrypt(models.CharField(max_length=100, blank=True))
+    stripe_secret_key = encrypt(models.CharField(max_length=100, blank=True))
+
+    def __str__(self):
+        return f'{self.company} keyset'
 
 
 class Lease(models.Model):
