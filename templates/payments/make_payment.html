@@ -6,6 +6,7 @@
 {% block extraheadscripts %}
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="{% static 'js/process_payment.js' %}" type="text/javascript" defer></script>
 {% endblock extraheadscripts %}
 
 {% block content %}
@@ -13,101 +14,26 @@
         <div class="row justify-content-center">
             <div class="col-11 col-md-8 col-lg-6 col-xl-4">
                 <h2 class="display-4 text-primary font-weight-bold">Submit Payment</h2>
-                <p><span class="h5">Tenant name: </span>{{ name }}</p>
-                <p><span class="h5">Tenant property: </span>{{ address }}</p>
+                <p><span class="h5">Name: </span>{{ page_data.name }}</p>
+                <p><span class="h5">Property: </span>{{ page_data.address }}</p>
+                <p><span class="h5">Contact email: </span>{{ page_data.email }} (receipt will be sent to this email)</p>
+                <p><span class="h5">Contact phone: </span>{{ page_data.phone }}</p>
                 <hr class="my-4">
-                <p>Fill in your credit card information below to submit your payment of ${{ amt|intcomma }}:</p>
                 <form action="" id="payment-form" class="mt-4">
-                    <div id="card-element"></div>
-                    <button id="submit" class="btn btn-primary btn-block my-4">
-                        <i class="fas fa-lock mr-2"></i>Submit Payment
+                    <p class="form-text">Fill in your credit card information below to submit your payment of ${{ page_data.amt|intcomma }}:</p>
+                    <div id="card-element" class=""></div>
+                    <button id="submit" class="btn btn-primary btn-block my-4 py-2">
+                        <span id="button-icon-regular" ><i class="fas fa-lock"></i></span>
+                        <span id="button-icon-wait" class="hidden"><i class="fas fa-spinner wait-spinner"></i></span>
+                        <span id="button-text" class="ml-2">Submit Payment</span>
                     </button>
                 </form>
+                <div id="card-error" class="form-text" role="alert"></div>
                 <a href="{% url 'users:user_dashboard' %}" class="text-muted">
                     Cancel and return to dashboard
                 </a>
             </div>
         </div>
     </div>
+    {{ page_data|json_script:"page_data" }}
 {% endblock content %}
-
-{% block extrascripts %}
-<script>
-    const stripe_pk = "{{ stripe_pk }}";
-    const stripe = Stripe(stripe_pk);
-    const pmtAmt = {{ amt }} * 100.0;
-    fetch("{% url 'payments:get_payment_intent' %}", {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-            "Accept": "application/json",
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-            payment_amount: pmtAmt
-        }),
-    })
-    .then(function(res) {
-        return res.json();
-    })
-    .then(function(data) {
-        const elements = stripe.elements();
-
-        const style = {
-            base: {
-                color: "#32325d",
-                fontFamily: "Arial, sans-serif",
-                fontSmoothing: "antialiased",
-                fontSize: "16px",
-                "::placeholder": {
-                    color: "#32325d"
-                },
-            },
-            invalid: {
-                fontFamily: "Arial, sans-serif",
-                color: "#fa755a",
-                iconColor: "#fa755a"
-            }
-        };
-
-        const card = elements.create("card", { style: style });
-        card.mount("#card-element");
-
-        const paymentForm = document.getElementById("payment-form");
-        paymentForm.addEventListener("submit", function(e) {
-            e.preventDefault();
-            payWithCard(stripe, card, data.clientSecret);
-        });
-    });
-
-    const payWithCard = function(stripe, card, clientSecret) {
-        stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: card
-            }
-        })
-        .then(function(result) {
-            if (result.error)
-                console.log(result.error.message);
-            else
-                console.log("SUCCESS!");
-        })
-    }
-
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            let cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                let cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-</script>
-{% endblock extrascripts %}

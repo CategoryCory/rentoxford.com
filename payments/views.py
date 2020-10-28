@@ -43,12 +43,41 @@ def payment_amount(request):
 @login_required
 def make_payment(request, amt):
     context = {
-        'amt': amt,
-        'stripe_pk': settings.STRIPE_API_PUBLIC_KEY,
-        'name': f'{request.user.first_name} {request.user.last_name}',
-        'address': request.user.lease.property
+        'page_data': {
+            'amt': amt,
+            'stripe_pk': settings.STRIPE_API_PUBLIC_KEY,
+            'name': f'{request.user.first_name} {request.user.last_name}',
+            'email': request.user.email,
+            'phone': request.user.phone_number,
+            'address': request.user.lease.property.full_address,
+            'street_address': request.user.lease.property.street_address,
+            'city': request.user.lease.property.city,
+            'state': request.user.lease.property.state,
+            'zipcode': request.user.lease.property.zipcode
+        }
     }
     return render(request, 'payments/make_payment.html', context)
+
+
+@login_required
+def payment_success(request):
+    payment_conf = request.GET.get('p_cnf')
+    amount = request.GET.get('amt')
+
+    if not payment_conf or not amount:
+        return redirect('pages:home')
+    else:
+        indx = payment_conf.rfind('-')
+        tstamp = payment_conf[:indx]
+        payment_date = datetime.fromtimestamp(int(tstamp))
+        context = {
+            'pmt_conf': payment_conf,
+            'pmt_time': payment_date.strftime('%b %d %Y %H:%M:%S'),
+            'amount': int(amount) / 100.0,
+            'name': request.user,
+            'property': request.user.lease.property
+        }
+        return render(request, 'payments/payment_success.html', context)
 
 
 @login_required
@@ -60,6 +89,7 @@ def get_payment_intent(request):
             intent = stripe.PaymentIntent.create(
                 amount=data['payment_amount'],
                 currency='usd',
+                metadata={'description': data['description']},
             )
 
             return JsonResponse({
@@ -68,5 +98,13 @@ def get_payment_intent(request):
 
         except Exception as e:
             return JsonResponse(error=str(e))
+    else:
+        return redirect('pages:home')
+
+
+@login_required
+def record_transaction(request):
+    if request.method == 'POST':
+        pass
     else:
         return redirect('pages:home')

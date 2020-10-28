@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static humanize %}
+
+{% block title %} | Payment Success{% endblock title %}
+
+{% block content %}
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div class="col-11 col-md-8 col-lg-6 col-xl-4">
+                <h2 class="text-primary">Success!</h2>
+                <p class="lead">Thank you for your payment. Please print this page for your records.</p>
+                <hr>
+                <p><span class="h5 mr-2">Payment Confirmation: </span>{{ pmt_conf }}</p>
+                <p><span class="h5 mr-2">Payment Date: </span>{{ pmt_time }}</p>
+                <p><span class="h5 mr-2">Payment Amount: </span>${{ amount|intcomma }}</p>
+                <p><span class="h5 mr-2">Tenant: </span>{{ name }}</p>
+                <p><span class="h5 mr-2">Property: </span>{{ property }}</p>
+                <a href="{% url 'users:user_dashboard' %}" class="btn btn-primary btn mt-4">
+                    <i class="far fa-id-badge mr-2"></i>Return to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

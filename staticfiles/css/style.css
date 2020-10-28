@@ -154,10 +154,13 @@ body {
 /* PAYMENT FORM */
 #card-element {
     padding: 0.75em 1.25em;
-    border-radius: 10px;
-    background: #edf3fa;
-    box-shadow:  10px 10px 20px #c9cfd5,
-                 -10px -10px 20px #ffffff;
+    border: 1px solid rgba(216, 218, 223, 1);
+    box-shadow: 0 0 3px 0 rgba(216, 218, 223, 0.6);
+    border-radius: 4px;
+}
+
+.hidden {
+    display: none;
 }
 
 /* ANIMATIONS FOR DISABLED BUTTONS */
