@@ -23,8 +23,8 @@ class Company(models.Model):
 
 class StripeKey(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    stripe_publishable_key = encrypt(models.CharField(max_length=100, blank=True))
-    stripe_secret_key = encrypt(models.CharField(max_length=100, blank=True))
+    stripe_publishable_key = encrypt(models.CharField(max_length=200, blank=True))
+    stripe_secret_key = encrypt(models.CharField(max_length=200, blank=True))
 
     def __str__(self):
         return f'{self.company} keyset'
