@@ -21,6 +21,7 @@ fetch("/payments/get-payment-intent/", {
 })
 .then(function(res) {
     console.log("Step 1");
+    console.log(res);
     return res.json();
 })
 .then(function(data) {
