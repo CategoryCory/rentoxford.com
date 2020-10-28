@@ -128,6 +128,7 @@ def get_payment_intent(request):
             stripe.api_key = stripe_sk
             if stripe_sk:
                 print('Found', flush=True)
+                print(stripe_sk[:20])
             data = json.loads(request.body)
             print('Data found', flush=True)
             intent = stripe.PaymentIntent.create(
