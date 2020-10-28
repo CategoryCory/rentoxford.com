@@ -88,7 +88,8 @@ const payWithCard = function(stripe, card, clientSecret) {
 
 const orderComplete = function(paymentIntentId, amount, tstamp) {
     const paymentConfirmation = Math.random().toString(16).substr(2, 12);
-    let queryParams = "?p_cnf=" + tstamp + "-" + paymentConfirmation;
+    let queryParams = "?p=" + paymentIntentId;
+    queryParams += "&p_cnf=" + tstamp + "-" + paymentConfirmation;
     queryParams += "&amt=" + amount;
     const redirectURL = "/payments/payment-success/" + queryParams;
     window.location = redirectURL;

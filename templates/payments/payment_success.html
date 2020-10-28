@@ -13,7 +13,7 @@
                 <hr>
                 <p><span class="h5 mr-2">Payment Confirmation: </span>{{ pmt_conf }}</p>
                 <p><span class="h5 mr-2">Payment Date: </span>{{ pmt_time }}</p>
-                <p><span class="h5 mr-2">Payment Amount: </span>${{ amount|intcomma }}</p>
+                <p><span class="h5 mr-2">Payment Amount: </span>${{ amount|floatformat:2|intcomma }}</p>
                 <p><span class="h5 mr-2">Tenant: </span>{{ name }}</p>
                 <p><span class="h5 mr-2">Property: </span>{{ property }}</p>
                 <a href="{% url 'users:user_dashboard' %}" class="btn btn-primary btn mt-4">

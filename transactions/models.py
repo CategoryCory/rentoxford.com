@@ -47,6 +47,7 @@ class Payment(models.Model):
     date = models.DateField(auto_now_add=True)
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     balance = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    stripe_payment_id = models.CharField(max_length=50)
     notes = models.CharField(max_length=255, blank=True)
     charges = models.ManyToManyField(Charge, related_name='lease_payments')
 

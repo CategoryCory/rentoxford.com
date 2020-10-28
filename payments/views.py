@@ -4,11 +4,12 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from datetime import datetime
+from decimal import Decimal
 import json
 import stripe
 
 
-from transactions.models import Charge
+from transactions.models import Charge, Payment
 from .forms import PaymentAmountForm
 
 
@@ -61,15 +62,46 @@ def make_payment(request, amt):
 
 @login_required
 def payment_success(request):
+    payment_id = request.GET.get('p')
     payment_conf = request.GET.get('p_cnf')
     amount = request.GET.get('amt')
 
-    if not payment_conf or not amount:
+    if not payment_id or not payment_conf or not amount:
         return redirect('pages:home')
     else:
         indx = payment_conf.rfind('-')
         tstamp = payment_conf[:indx]
         payment_date = datetime.fromtimestamp(int(tstamp))
+        amount_dec = Decimal(amount) / Decimal(100)
+
+        pmt = Payment(
+            tenant=request.user,
+            amount=amount_dec,
+            balance=amount_dec,
+            stripe_payment_id=payment_id,
+        )
+
+        pmt.save()
+
+        current_charges = Charge.objects.filter(tenant=request.user, balance__gt=0).order_by('due_date')
+
+        for chrg in current_charges:
+            if pmt.balance <= 0:
+                break
+
+            if pmt.balance >= chrg.balance:
+                pmt.balance -= chrg.balance
+                chrg.balance = 0
+                chrg.status = Charge.PAID
+            else:
+                chrg.balance -= pmt.balance
+                pmt.balance = 0
+
+            pmt.notes += f'{chrg.type} due on {chrg.due_date}; '
+            pmt.charges.add(chrg)
+            pmt.save()
+            chrg.save()
+
         context = {
             'pmt_conf': payment_conf,
             'pmt_time': payment_date.strftime('%b %d %Y %H:%M:%S'),
@@ -98,13 +130,5 @@ def get_payment_intent(request):
 
         except Exception as e:
             return JsonResponse(error=str(e))
-    else:
-        return redirect('pages:home')
-
-
-@login_required
-def record_transaction(request):
-    if request.method == 'POST':
-        pass
     else:
         return redirect('pages:home')
