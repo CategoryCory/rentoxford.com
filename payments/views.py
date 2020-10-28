@@ -16,7 +16,6 @@ from .forms import PaymentAmountForm
 
 @login_required
 def payment_amount(request):
-    print('Set payment amount')
     current_user = request.user
     today = datetime.today()
     current_charges = Charge.objects.filter(tenant=current_user, due_date__lte=today, balance__gt=0)
