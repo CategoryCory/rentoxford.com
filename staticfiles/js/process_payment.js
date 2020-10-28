@@ -20,9 +20,11 @@ fetch("/payments/get-payment-intent/", {
     }),
 })
 .then(function(res) {
+    console.log("Step 1");
     return res.json();
 })
 .then(function(data) {
+    console.log("Step 2");
     const elements = stripe.elements();
 
     const style = {
@@ -55,6 +57,9 @@ fetch("/payments/get-payment-intent/", {
         e.preventDefault();
         payWithCard(stripe, card, data.clientSecret);
     });
+})
+.catch(function(err) {
+    console.error(err.message);
 });
 
 const payWithCard = function(stripe, card, clientSecret) {
