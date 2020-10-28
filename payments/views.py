@@ -120,16 +120,21 @@ def payment_success(request):
 def get_payment_intent(request):
     if request.method == 'POST':
         try:
+            print('Method was post')
             stripe_sk = StripeKey.objects.filter(
                 company=request.user.lease.company
             ).values('stripe_secret_key')[0]['stripe_secret_key']
             stripe.api_key = stripe_sk
+            if stripe_sk:
+                print('Found')
             data = json.loads(request.body)
+            print('Data found')
             intent = stripe.PaymentIntent.create(
                 amount=data['payment_amount'],
                 currency='usd',
                 metadata={'description': data['description']},
             )
+            print('Intent created')
 
             return JsonResponse({
                 'clientSecret': intent['client_secret']
