@@ -25,7 +25,7 @@ class Command(BaseCommand):
                     if user_lease.lease_end <= today:
                         continue
                     # Lease is still current; check if next charge already exists
-                    next_charge = Charge.objects.filter(due_date=next_due_date)
+                    next_charge = Charge.objects.filter(tenant=user, due_date=next_due_date)
                     if not next_charge:
                         # Next charge doesn't exist; create new charge
                         next_charge = Charge(

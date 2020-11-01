@@ -39,7 +39,8 @@ class CustomAllauthUserCreationForm(AllauthSignupForm, forms.Form):
                                    error_messages={'required': 'You must provide your phone number.'})
     field_order = ['first_name', 'last_name', 'email', 'phone_number', 'password1', 'password2']
 
-    def signup(self, request, user):
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
+    def save(self, request):
+        user = super(CustomAllauthUserCreationForm, self).save(request)
+        user.phone_number = self.cleaned_data['phone_number']
         user.save()
+        return user
