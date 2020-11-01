@@ -41,6 +41,31 @@ class Charge(models.Model):
     def __str__(self):
         return f'{self.tenant} - {self.due_date}'
 
+    def save(self, *args, **kwargs):
+        # Check if this is a new save
+        is_adding = self._state.adding
+
+        # Save new charge
+        super(Charge, self).save(*args, **kwargs)
+
+        # Find payments with remaining balance and adjust ONLY IF this is a new charge
+        if is_adding is True:
+            user_payments = Payment.objects.filter(tenant=self.tenant, balance__gt=0).order_by('date')
+            for pmt in user_payments:
+                # Check if payment balance is greater than charge balance
+                if pmt.balance >= self.balance:
+                    # Payment balance is greater than charge; charge is fully paid
+                    pmt.balance -= self.balance
+                    self.balance = 0
+                    self.status = self.PAID
+                else:
+                    # Payment balance is less than charge; payment balance is zero but charge still has balance
+                    self.balance -= pmt.balance
+                    pmt.balance = 0
+                pmt.charges.add(self)
+                pmt.save()
+                super(Charge, self).save(*args, **kwargs)
+
 
 class Payment(models.Model):
     tenant = models.ForeignKey(UserModel, on_delete=models.CASCADE)
