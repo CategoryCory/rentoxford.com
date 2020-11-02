@@ -3,6 +3,10 @@ from calendar import monthrange
 from decimal import *
 
 
+def find_current_first(curr_date):
+    return datetime.date(curr_date.year, curr_date.month, 1)
+
+
 def find_next_first(curr_date):
     if curr_date.month < 12:
         return datetime.date(curr_date.year, curr_date.month+1, 1)
