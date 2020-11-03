@@ -69,10 +69,11 @@ class Charge(models.Model):
 
 class Payment(models.Model):
     tenant = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     balance = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     stripe_payment_id = models.CharField(max_length=50)
+    confirmation = models.CharField(max_length=50)
     notes = models.CharField(max_length=255, blank=True)
     charges = models.ManyToManyField(Charge, related_name='lease_payments')
 
