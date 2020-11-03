@@ -80,6 +80,9 @@ class Payment(models.Model):
     class Meta:
         verbose_name = 'Lease Payment'
         verbose_name_plural = 'Lease Payments'
+        constraints = [
+            models.UniqueConstraint(fields=['stripe_payment_id', ], name='unique_stripe_id'),
+        ]
 
     def __str__(self):
         return f'{self.tenant} - {self.date}'
