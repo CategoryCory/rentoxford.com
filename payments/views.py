@@ -66,61 +66,97 @@ def make_payment(request, amt):
 
 @login_required
 def payment_success(request):
-    payment_id = request.GET.get('p')
-    payment_conf = request.GET.get('p_cnf')
-    amount = request.GET.get('amt')
+    payment_conf = request.GET.get('cnf')
+    payment_error = request.GET.get('error')
 
-    if not payment_id or not payment_conf or not amount:
+    if not payment_conf and not payment_error:
         return redirect('pages:home')
     else:
-        indx = payment_conf.rfind('-')
-        tstamp = payment_conf[:indx]
-        payment_date = datetime.fromtimestamp(int(tstamp))
-        amount_dec = Decimal(amount) / Decimal(100)
+        if not payment_error:
+            # Retrieve payment by confirmation
+            pmt = Payment.objects.filter(confirmation=payment_conf).first()
 
-        # Check to see if a payment with this Stripe id already exists -- this would be true if user
-        # tries to refresh the payment confirmation page
-        pmt = Payment.objects.filter(tenant=request.user, stripe_payment_id=payment_id)
-
-        # Only save if pmt was not found above
-        if not pmt:
-            pmt = Payment(
-                tenant=request.user,
-                amount=amount_dec,
-                balance=amount_dec,
-                stripe_payment_id=payment_id,
-                confirmation=payment_conf,
-            )
-
-            pmt.save()
-
-            current_charges = Charge.objects.filter(tenant=request.user, balance__gt=0).order_by('due_date')
-
-            for chrg in current_charges:
-                if pmt.balance <= 0:
-                    break
-
-                if pmt.balance >= chrg.balance:
-                    pmt.balance -= chrg.balance
-                    chrg.balance = 0
-                    chrg.status = Charge.PAID
-                else:
-                    chrg.balance -= pmt.balance
-                    pmt.balance = 0
-
-                pmt.notes += f'{chrg.type} due on {chrg.due_date}; '
-                pmt.charges.add(chrg)
-                pmt.save()
-                chrg.save()
-
-        context = {
-            'pmt_conf': payment_conf,
-            'pmt_time': payment_date.strftime('%b %d %Y %H:%M:%S'),
-            'amount': int(amount) / 100.0,
-            'name': request.user,
-            'property': request.user.lease.property
-        }
+            # Send error if payment doesn't exist
+            if pmt is None:
+                context = {
+                    'pmt_error': 'This payment does not exist.'
+                }
+            else:
+                context = {
+                    'pmt_conf': pmt.confirmation,
+                    'pmt_time': pmt.date,
+                    'amount': pmt.amount,
+                    'name': request.user,
+                    'property': request.user.lease.property
+                }
+        else:
+            # Send error
+            context = {
+                'pmt_error': 'An error occurred while processing this payment.'
+            }
         return render(request, 'payments/payment_success.html', context)
+
+
+@login_required
+def record_payment_details(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            success = True
+            error_msg = ''
+
+            # Check to see if a payment with this Stripe id already exists
+            pmt = Payment.objects.filter(tenant=request.user, stripe_payment_id=data['pid'])
+
+            # Only save if pmt was not found above
+            if not pmt:
+                pmt_amount = Decimal(data['amt']) / Decimal(100)
+
+                pmt = Payment(
+                    tenant=request.user,
+                    amount=pmt_amount,
+                    balance=pmt_amount,
+                    stripe_payment_id=data['pid'],
+                    confirmation=data['conf'],
+                )
+                pmt.save()
+
+                # Apply payment towards charges
+                current_charges = Charge.objects.filter(tenant=request.user, balance__gt=0).order_by('due_date')
+
+                for chrg in current_charges:
+                    if pmt.balance <= 0:
+                        break
+
+                    if pmt.balance >= chrg.balance:
+                        pmt.balance -= chrg.balance
+                        chrg.balance = 0
+                        chrg.status = Charge.PAID
+                    else:
+                        chrg.balance -= pmt.balance
+                        pmt.balance = 0
+
+                    pmt.notes += f'{chrg.type} due on {chrg.due_date}; '
+                    pmt.charges.add(chrg)
+                    pmt.save()
+                    chrg.save()
+            else:
+                success = False
+                error_msg = 'Payment already exists'
+
+            return JsonResponse({
+                'success': success,
+                'error_msg': error_msg
+            })
+
+        except Exception as e:
+            print(str(e), flush=True)
+            return JsonResponse({
+                'success': False,
+                'error_msg': str(e)
+            })
+    else:
+        return redirect('pages:home')
 
 
 @login_required

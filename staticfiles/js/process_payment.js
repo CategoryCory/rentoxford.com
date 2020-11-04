@@ -90,12 +90,42 @@ const payWithCard = function(stripe, card, clientSecret) {
 }
 
 const orderComplete = function(paymentIntentId, amount, tstamp) {
-    const paymentConfirmation = Math.random().toString(16).substr(2, 12);
-    let queryParams = "?p=" + paymentIntentId;
-    queryParams += "&p_cnf=" + tstamp + "-" + paymentConfirmation;
-    queryParams += "&amt=" + amount;
-    const redirectURL = "/payments/payment-success/" + queryParams;
-    window.location = redirectURL;
+    const paymentConfirmation = tstamp + "-" + Math.random().toString(16).substr(2, 12);
+
+    fetch("/payments/record-payment-details/", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+            "Accept": "application/json",
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            timestamp: tstamp,
+            amt: amount,
+            pid: paymentIntentId,
+            conf: paymentConfirmation
+        }),
+    })
+    .then(function(res) {
+        return res.json();
+    })
+    .then(function(data) {
+        const successfullyRecorded = data.success;
+        let queryParams;
+
+        if (successfullyRecorded) {
+            queryParams = "?cnf=" + paymentConfirmation;
+        } else {
+            queryParams = "?error=true";
+        }
+
+        const redirectURL = "/payments/payment-success/" + queryParams;
+        window.location = redirectURL;
+    })
+    .catch(function(err) {
+        console.error(err);
+        window.location = "/payments/payment-success/?error=true";
+    });
 }
 
 const showError = function(errorText) {

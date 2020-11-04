@@ -83,6 +83,9 @@ class Payment(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['stripe_payment_id', ], name='unique_stripe_id'),
         ]
+        indexes = [
+            models.Index(fields=['confirmation'], name='confirmation_indx'),
+        ]
 
     def __str__(self):
         return f'{self.tenant} - {self.date}'

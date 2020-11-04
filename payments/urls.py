@@ -8,4 +8,5 @@ urlpatterns = [
     path('make-payment/<amt>/', views.make_payment, name='make_payment'),
     path('payment-success/', views.payment_success, name='payment_success'),
     path('get-payment-intent/', views.get_payment_intent, name='get_payment_intent'),
+    path('record-payment-details/', views.record_payment_details, name='record_payment_details'),
 ]
