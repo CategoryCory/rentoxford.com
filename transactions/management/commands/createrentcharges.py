@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from datetime import date
 from transactions.models import Charge
 from ._date_helpers import find_current_first, find_next_first, find_prorated_amount
+from decimal import Decimal
 
 CustomUser = get_user_model()
 
@@ -64,6 +65,13 @@ class Command(BaseCommand):
                             )
                             next_charge.amount = prorated_amount
                             next_charge.balance = prorated_amount
+
+                        # Adjust amount for transaction fee
+                        transaction_fee = ((next_charge.amount + Decimal(0.3)) / Decimal(0.971)) - next_charge.amount
+                        transaction_fee = round(transaction_fee, 2)
+                        next_charge.amount += transaction_fee
+                        next_charge.balance += transaction_fee
+
                         # Save new charge
                         next_charge.save()
             except Exception as e:
