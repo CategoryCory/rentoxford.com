@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from datetime import datetime
 
 from maintenance_requests.models import MaintenanceRequest
-from transactions.models import Charge
+from transactions.models import Charge, Payment
 
 CustomUser = get_user_model()
 
@@ -27,9 +27,13 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
             due_date__lte=today,
             balance__gt=0
         ).order_by('due_date')
+        payments = Payment.objects.filter(
+            tenant=self.request.user
+        ).order_by('-date')
         context['maintenance_requests'] = maintenance_requests
         context['current_lease'] = current_lease
         context['active_charges'] = active_charges
+        context['payments'] = payments
         context['total_due'] = sum(chrg.balance for chrg in active_charges)
         if self.request.user.rent_amount > 0:
             context['rent_display'] = self.request.user.rent_amount
