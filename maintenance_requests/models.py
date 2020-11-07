@@ -16,6 +16,8 @@ class MaintenanceRequest(models.Model):
     description = models.TextField(verbose_name='Please provide a description of the maintenance problem you\'re '
                                                 'having.')
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default=PENDING)
+    service_provider_invoice = models.CharField(max_length=150, blank=True)
+    resolution_notes = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
 
