@@ -1,9 +1,11 @@
 from django.views.generic import TemplateView, CreateView
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.conf import settings
 from django.core.mail import send_mail
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from datetime import datetime
 
@@ -11,6 +13,22 @@ from maintenance_requests.models import MaintenanceRequest
 from transactions.models import Charge, Payment
 
 CustomUser = get_user_model()
+
+
+@login_required
+def login_success(request):
+    if request.user.is_staff is True:
+        return redirect('users:admin_dashboard')
+    else:
+        return redirect('users:user_dashboard')
+
+
+@login_required
+def admin_dashboard(request):
+    if request.user.is_staff is False:
+        return redirect('pages:home')
+    else:
+        return render(request, 'users/admin_dashboard.html')
 
 
 class UserDashboardView(LoginRequiredMixin, TemplateView):

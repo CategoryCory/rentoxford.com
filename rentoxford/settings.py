@@ -165,7 +165,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # User model setup
 AUTH_USER_MODEL = 'users.CustomUser'
-LOGIN_REDIRECT_URL = 'users:user_dashboard'
+LOGIN_REDIRECT_URL = 'users:login_success'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'pages:home'
 
 # Emails
