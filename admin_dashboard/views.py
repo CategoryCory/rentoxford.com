@@ -13,7 +13,7 @@ def ad_home(request):
         context = {
             'listings': listings
         }
-        return render(request, 'admin_dashboard/admin_dashboard.html', context)
+        return render(request, 'admin_dashboard/ad_home.html', context)
 
 
 @login_required
@@ -21,4 +21,4 @@ def ad_tenants(request):
     if request.user.is_staff is False:
         return redirect('pages:home')
     else:
-        return render(request, 'admin_dashboard/admin_dashboard_tenants.html')
+        return render(request, 'admin_dashboard/ad_tenants.html')
