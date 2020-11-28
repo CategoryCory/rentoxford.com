@@ -36,6 +36,14 @@ def admin_dashboard(request):
         return render(request, 'users/admin_dashboard.html', context)
 
 
+@login_required
+def admin_dashboard_tenants(request):
+    if request.user.is_staff is False:
+        return redirect('pages:home')
+    else:
+        return render(request, 'users/admin_dashboard_tenants.html')
+
+
 class UserDashboardView(LoginRequiredMixin, TemplateView):
     model = CustomUser
     template_name = 'users/user_dashboard.html'

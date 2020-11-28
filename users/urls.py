@@ -1,11 +1,12 @@
 from django.urls import path
 
-from .views import login_success, admin_dashboard, UserDashboardView, SubmitMaintenanceRequestView
+from . import views
 
 app_name = 'users'
 urlpatterns = [
-    path('login-success/', login_success, name='login_success'),
-    path('admin-dashboard/', admin_dashboard, name='admin_dashboard'),
-    path('dashboard/', UserDashboardView.as_view(), name='user_dashboard'),
-    path('submit-maintenance-request/', SubmitMaintenanceRequestView.as_view(), name='submit_maintenance_request'),
+    path('login-success/', views.login_success, name='login_success'),
+    path('dashboard/', views.UserDashboardView.as_view(), name='user_dashboard'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin-dashboard/tenants/', views.admin_dashboard_tenants, name='admin_dashboard_tenants'),
+    path('submit-maintenance-request/', views.SubmitMaintenanceRequestView.as_view(), name='submit_maintenance_request'),
 ]
