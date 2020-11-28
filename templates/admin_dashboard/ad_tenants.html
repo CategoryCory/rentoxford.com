@@ -14,13 +14,27 @@
         <table id="table_id" class="display">
             <thead>
                 <tr>
-                    <th>Address</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Approved?</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Something</td>
-                </tr>
+                {% for tenant in tenants %}
+                    <tr>
+                        <td>{{ tenant.first_name }} {{ tenant.last_name }}</td>
+                        <td>{{ tenant.email }}</td>
+                        <td>{{ tenant.phone_number }}</td>
+                        <td>
+                            {% if tenant.is_approved %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
