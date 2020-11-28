@@ -3,6 +3,47 @@
 
 {% block title %} | Admin Dashboard{% endblock title %}
 
+{% block extraheadscripts %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-html5-1.6.5/b-print-1.6.5/r-2.2.6/sp-1.2.1/datatables.min.css"/>
+{% endblock extraheadscripts %}
+
 {% block content %}
-<h2>This is the admin dashboard.</h2>
+    {% include 'partials/_admin_navbar.html' %}
+    <div class="container-fluid my-5 px-3 px-md-5">
+        <h2 class="text-primary mb-4 pb-3 display-4 border-bottom">Properties</h2>
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>Monthly Rent</th>
+                    <th>Security Deposit</th>
+                    <th>Availability</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for listing in listings %}
+                    <tr>
+                        <td>{{ listing.full_address }}</td>
+                        <td>${{ listing.monthly_rent|floatformat:2|intcomma }}</td>
+                        <td>${{ listing.security_deposit|floatformat:2|intcomma }}</td>
+                        <td>{{ listing.get_availability_display }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock content %}
+
+{% block extrascripts %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-html5-1.6.5/b-print-1.6.5/r-2.2.6/sp-1.2.1/datatables.min.js"></script>
+    <script>
+        $('#table_id').DataTable({
+            dom: "<'row'<'col-3'l><'col-3'B><'col-6'f>r>tip",
+            buttons: [
+                'excelHtml5', 'pdfHtml5', 'print'
+            ]
+        });
+    </script>
+{% endblock extrascripts %}

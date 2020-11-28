@@ -11,6 +11,7 @@ from datetime import datetime
 
 from maintenance_requests.models import MaintenanceRequest
 from transactions.models import Charge, Payment
+from listings.models import Listing
 
 CustomUser = get_user_model()
 
@@ -28,7 +29,11 @@ def admin_dashboard(request):
     if request.user.is_staff is False:
         return redirect('pages:home')
     else:
-        return render(request, 'users/admin_dashboard.html')
+        listings = Listing.objects.all()
+        context = {
+            'listings': listings
+        }
+        return render(request, 'users/admin_dashboard.html', context)
 
 
 class UserDashboardView(LoginRequiredMixin, TemplateView):
