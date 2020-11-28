@@ -5,13 +5,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.conf import settings
 from django.core.mail import send_mail
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from datetime import datetime
 
 from maintenance_requests.models import MaintenanceRequest
 from transactions.models import Charge, Payment
-from listings.models import Listing
 
 CustomUser = get_user_model()
 
@@ -19,29 +18,9 @@ CustomUser = get_user_model()
 @login_required
 def login_success(request):
     if request.user.is_staff is True:
-        return redirect('users:admin_dashboard')
+        return redirect('admin_dashboard:ad_home')
     else:
         return redirect('users:user_dashboard')
-
-
-@login_required
-def admin_dashboard(request):
-    if request.user.is_staff is False:
-        return redirect('pages:home')
-    else:
-        listings = Listing.objects.all()
-        context = {
-            'listings': listings
-        }
-        return render(request, 'users/admin_dashboard.html', context)
-
-
-@login_required
-def admin_dashboard_tenants(request):
-    if request.user.is_staff is False:
-        return redirect('pages:home')
-    else:
-        return render(request, 'users/admin_dashboard_tenants.html')
 
 
 class UserDashboardView(LoginRequiredMixin, TemplateView):

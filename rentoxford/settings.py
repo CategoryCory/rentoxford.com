@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
     # Local
     'users.apps.UsersConfig',
+    'admin_dashboard.apps.AdminDashboardConfig',
     'pages.apps.PagesConfig',
     'listings.apps.ListingsConfig',
     'leases.apps.LeasesConfig',

@@ -81,7 +81,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             {% if user.is_staff %}
-                                <a class="dropdown-item" href="{% url 'users:admin_dashboard' %}">
+                                <a class="dropdown-item" href="{% url 'admin_dashboard:ad_home' %}">
                                     <i class="far fa-id-badge mr-2"></i>Admin
                                 </a>
                             {% else %}
