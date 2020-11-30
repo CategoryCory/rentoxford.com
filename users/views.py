@@ -29,12 +29,11 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        today = datetime.today()
+        today = datetime.today().date()
         maintenance_requests = MaintenanceRequest.objects.filter(tenant=self.request.user)
         current_lease = self.request.user.lease
         active_charges = Charge.objects.filter(
             tenant=self.request.user,
-            due_date__lte=today,
             balance__gt=0
         ).order_by('due_date')
         payments = Payment.objects.filter(
@@ -44,7 +43,8 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         context['current_lease'] = current_lease
         context['active_charges'] = active_charges
         context['payments'] = payments
-        context['total_due'] = sum(chrg.balance for chrg in active_charges)
+        context['total_due'] = sum(chrg.balance for chrg in active_charges if chrg.due_date <= today)
+        context['total_charges'] = sum(chrg.balance for chrg in active_charges)
         if self.request.user.rent_amount > 0:
             context['rent_display'] = self.request.user.rent_amount
         return context

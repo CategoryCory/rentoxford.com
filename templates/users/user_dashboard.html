@@ -55,7 +55,7 @@
                     <div class="card-body">
                         <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
                             <h3 class="my-2 p-0">My Current Charges</h3>
-                            {% if total_due > 0 %}
+                            {% if total_charges > 0 %}
                                 <a href="{% url 'payments:payment_amount' %}" class="btn btn-primary btn-sm my-2">
                                     <i class="far fa-credit-card mr-2"></i>Make a Rent Payment
                                 </a>
@@ -85,8 +85,12 @@
                                 </table>
                                 <hr>
                                 <p class="d-flex justify-content-end align-items-baseline mb-0">
-                                    <span class="h5">Total Due: </span>
+                                    <span class="h5">Total amount currently due: </span>
                                     <span class="h3 text-bold ml-2">${{ total_due|intcomma }}</span>
+                                </p>
+                                <p class="d-flex justify-content-end align-items-baseline mb-0">
+                                    <span class="h5">Total charges: </span>
+                                    <span class="h3 text-bold ml-2">${{ total_charges|intcomma }}</span>
                                 </p>
                             </div>
                         {% else %}

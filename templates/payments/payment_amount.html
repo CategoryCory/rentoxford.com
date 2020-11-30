@@ -16,9 +16,15 @@
                     {% csrf_token %}
                     {{ form|crispy }}
                     <div class="form-check mb-3">
+                        <input type="checkbox" id="chkCurrentDueAmount" class="form-check-input">
+                        <label for="chkCurrentDueAmount" class="form-check-label">
+                            Pay current due amount of ${{ current_due|intcomma }}
+                        </label>
+                    </div>
+                    <div class="form-check mb-3">
                         <input type="checkbox" id="chkFullAmount" class="form-check-input" value="{{ base_rent }}">
                         <label for="chkFullAmount" class="form-check-label">
-                            Pay full amount of ${{ total_owed|intcomma }}
+                            Pay total amount of ${{ total_charges|intcomma }}
                         </label>
                     </div>
                     <button type="submit" id="submitPayment" class="btn btn-primary">Go to Payment Page</button>
@@ -31,6 +37,7 @@
 {% block extrascripts %}
     <script>
         const paymentForm = document.getElementById('paymentForm');
+        const payCurrentDueAmountCheckbox = document.getElementById('chkCurrentDueAmount');
         const payFullAmountCheckbox = document.getElementById('chkFullAmount');
         const paymentAmountInput = document.getElementById('{{ form.amount.auto_id }}');
         const submitPaymentButton = document.getElementById('submitPayment');
@@ -44,13 +51,32 @@
             });
 
             if (this.checked) {
-                paymentAmountInput.value = {{ total_owed }};
+                paymentAmountInput.value = "{{ total_charges }}";
+                payCurrentDueAmountCheckbox.disabled = true;
             } else {
                 paymentAmountInput.value = "";
+                payCurrentDueAmountCheckbox.disabled = false;
             }
 
             paymentAmountInput.dispatchEvent(inputEvent);
         });
+
+        payCurrentDueAmountCheckbox.addEventListener('change', function(e) {
+            const inputEvent = new Event('input', {
+                bubbles: true,
+                cancelable: true,
+            });
+
+            if (this.checked) {
+                paymentAmountInput.value = "{{ current_due }}";
+                payFullAmountCheckbox.disabled = true;
+            } else {
+                paymentAmountInput.value = "";
+                payFullAmountCheckbox.disabled = false;
+            }
+
+            paymentAmountInput.dispatchEvent(inputEvent);
+        })
 
         paymentAmountInput.addEventListener('input', function(e) {
             const currentPmtAmount = paymentAmountInput.value;

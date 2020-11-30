@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
@@ -17,9 +16,10 @@ from .forms import PaymentAmountForm
 @login_required
 def payment_amount(request):
     current_user = request.user
-    today = datetime.today()
-    current_charges = Charge.objects.filter(tenant=current_user, due_date__lte=today, balance__gt=0)
-    total_owed = sum(chrg.balance for chrg in current_charges)
+    today = datetime.today().date()
+    current_charges = Charge.objects.filter(tenant=current_user, balance__gt=0)
+    total_charges = sum(chrg.balance for chrg in current_charges)
+    current_due = sum(chrg.balance for chrg in current_charges if chrg.due_date <= today)
 
     if request.method == 'POST':
         form = PaymentAmountForm(request.POST)
@@ -39,7 +39,13 @@ def payment_amount(request):
         # Not a POST, so create blank form and display it
         form = PaymentAmountForm()
 
-    return render(request, 'payments/payment_amount.html', {'form': form, 'total_owed': total_owed})
+    context = {
+        'form': form,
+        'total_charges': total_charges,
+        'current_due': current_due,
+    }
+
+    return render(request, 'payments/payment_amount.html', context)
 
 
 @login_required
