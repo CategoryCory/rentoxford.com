@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+import time
+import random
+import math
 
 UserModel = get_user_model()
 
@@ -52,6 +55,10 @@ class Charge(models.Model):
         if is_adding is True:
             user_payments = Payment.objects.filter(tenant=self.tenant, balance__gt=0).order_by('date')
             for pmt in user_payments:
+                # If charge balance is 0, no need to continue
+                if self.balance <= 0:
+                    break
+
                 # Check if payment balance is greater than charge balance
                 if pmt.balance >= self.balance:
                     # Payment balance is greater than charge; charge is fully paid
@@ -62,30 +69,75 @@ class Charge(models.Model):
                     # Payment balance is less than charge; payment balance is zero but charge still has balance
                     self.balance -= pmt.balance
                     pmt.balance = 0
+
                 pmt.charges.add(self)
                 pmt.save()
-                super(Charge, self).save(*args, **kwargs)
+
+            super(Charge, self).save(*args, **kwargs)
 
 
 class Payment(models.Model):
+    ONLINE = 'online'
+    OFFLINE = 'offline'
+
+    TYPE_CHOICES = (
+        (ONLINE, 'Online'),
+        (OFFLINE, 'Offline'),
+    )
+
     tenant = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     balance = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    stripe_payment_id = models.CharField(max_length=50)
-    confirmation = models.CharField(max_length=50)
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=ONLINE)
+    stripe_payment_id = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    confirmation = models.CharField(max_length=50, unique=True, blank=True)
     notes = models.CharField(max_length=255, blank=True)
-    charges = models.ManyToManyField(Charge, related_name='lease_payments')
+    charges = models.ManyToManyField(Charge, related_name='lease_payments', blank=True)
 
     class Meta:
         verbose_name = 'Lease Payment'
         verbose_name_plural = 'Lease Payments'
-        constraints = [
-            models.UniqueConstraint(fields=['stripe_payment_id', ], name='unique_stripe_id'),
-        ]
         indexes = [
             models.Index(fields=['confirmation'], name='confirmation_indx'),
         ]
 
     def __str__(self):
         return f'{self.tenant} - {self.date}'
+
+    def save(self, *args, **kwargs):
+        # Check if this is a new payment
+        is_adding = self._state.adding
+
+        # If this is a new offline payment, create a confirmation
+        if is_adding and self.type == self.OFFLINE:
+            char_choices = '0123456789ABCDEF'
+            random_string = ''.join(random.choice(char_choices) for _ in range(16))
+            self.confirmation = f'{math.floor(time.time())}-{random_string}'
+
+        # Save new payment
+        super(Payment, self).save(*args, **kwargs)
+
+        # Find charges with remaining balance and adjust ONLY IF this is a new payment
+        if is_adding is True:
+            user_charges = Charge.objects.filter(tenant=self.tenant, balance__gt=0).order_by('due_date')
+            for chrg in user_charges:
+                # If payment balance is zero, no need to continue
+                if self.balance <= 0:
+                    break
+
+                # Check if charge balance is GTE to payment balance
+                if self.balance >= chrg.balance:
+                    # Payment balance is GTE charge balance, payment still has balance but charge is paid
+                    self.balance -= chrg.balance
+                    chrg.balance = 0
+                    chrg.status = Charge.PAID
+                else:
+                    # Payment balance is less than charge; payment is consumed
+                    chrg.balance -= self.balance
+                    self.balance = 0
+
+                self.charges.add(chrg)
+                chrg.save()
+
+            super(Payment, self).save(*args, **kwargs)

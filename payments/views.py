@@ -120,26 +120,6 @@ def record_payment_details(request):
                     confirmation=data['conf'],
                 )
                 pmt.save()
-
-                # Apply payment towards charges
-                current_charges = Charge.objects.filter(tenant=request.user, balance__gt=0).order_by('due_date')
-
-                for chrg in current_charges:
-                    if pmt.balance <= 0:
-                        break
-
-                    if pmt.balance >= chrg.balance:
-                        pmt.balance -= chrg.balance
-                        chrg.balance = 0
-                        chrg.status = Charge.PAID
-                    else:
-                        chrg.balance -= pmt.balance
-                        pmt.balance = 0
-
-                    pmt.notes += f'{chrg.type} due on {chrg.due_date}; '
-                    pmt.charges.add(chrg)
-                    pmt.save()
-                    chrg.save()
             else:
                 success = False
                 error_msg = 'Payment already exists'
