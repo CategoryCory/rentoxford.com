@@ -19,7 +19,8 @@ def payment_amount(request):
     today = datetime.today().date()
     current_charges = Charge.objects.filter(tenant=current_user, balance__gt=0)
     total_charges = sum(chrg.balance for chrg in current_charges)
-    current_due = sum(chrg.balance for chrg in current_charges if chrg.due_date <= today)
+    total_current_due = sum(chrg.balance for chrg in current_charges if chrg.due_date <= today)
+    monthly_amount = sum(chrg.balance for chrg in current_charges if chrg.due_date.month == today.month)
 
     if request.method == 'POST':
         form = PaymentAmountForm(request.POST)
@@ -41,8 +42,9 @@ def payment_amount(request):
 
     context = {
         'form': form,
+        'monthly_amount': monthly_amount,
         'total_charges': total_charges,
-        'current_due': current_due,
+        'total_current_due': total_current_due,
     }
 
     return render(request, 'payments/payment_amount.html', context)

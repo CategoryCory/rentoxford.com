@@ -16,9 +16,15 @@
                     {% csrf_token %}
                     {{ form|crispy }}
                     <div class="form-check mb-3">
+                        <input type="checkbox" id="chkMonthlyAmount" class="form-check-input">
+                        <label for="chkMonthlyAmount" class="form-check-label">
+                            Pay monthly amount of ${{ monthly_amount|intcomma }}
+                        </label>
+                    </div>
+                    <div class="form-check mb-3">
                         <input type="checkbox" id="chkCurrentDueAmount" class="form-check-input">
                         <label for="chkCurrentDueAmount" class="form-check-label">
-                            Pay current due amount of ${{ current_due|intcomma }}
+                            Pay total current due amount of ${{ total_current_due|intcomma }}
                         </label>
                     </div>
                     <div class="form-check mb-3">
@@ -37,12 +43,32 @@
 {% block extrascripts %}
     <script>
         const paymentForm = document.getElementById('paymentForm');
+        const payMonthlyAmountCheckbox = document.getElementById('chkMonthlyAmount');
         const payCurrentDueAmountCheckbox = document.getElementById('chkCurrentDueAmount');
         const payFullAmountCheckbox = document.getElementById('chkFullAmount');
         const paymentAmountInput = document.getElementById('{{ form.amount.auto_id }}');
         const submitPaymentButton = document.getElementById('submitPayment');
 
         submitPaymentButton.disabled = true;
+
+        payMonthlyAmountCheckbox.addEventListener('change', function(e) {
+            const inputEvent = new Event('input', {
+                bubbles: true,
+                cancelable: true,
+            });
+
+            if (this.checked) {
+                paymentAmountInput.value = "{{ monthly_amount }}";
+                payFullAmountCheckbox.disabled = true;
+                payCurrentDueAmountCheckbox.disabled = true;
+            } else {
+                paymentAmountInput.value = "";
+                payFullAmountCheckbox.disabled = false;
+                payCurrentDueAmountCheckbox.disabled = false;
+            }
+
+            paymentAmountInput.dispatchEvent(inputEvent);
+        });
 
         payFullAmountCheckbox.addEventListener('change', function(e) {
             const inputEvent = new Event('input', {
@@ -53,9 +79,11 @@
             if (this.checked) {
                 paymentAmountInput.value = "{{ total_charges }}";
                 payCurrentDueAmountCheckbox.disabled = true;
+                payMonthlyAmountCheckbox.disabled = true;
             } else {
                 paymentAmountInput.value = "";
                 payCurrentDueAmountCheckbox.disabled = false;
+                payMonthlyAmountCheckbox.disabled = false;
             }
 
             paymentAmountInput.dispatchEvent(inputEvent);
@@ -68,11 +96,13 @@
             });
 
             if (this.checked) {
-                paymentAmountInput.value = "{{ current_due }}";
+                paymentAmountInput.value = "{{ total_current_due }}";
                 payFullAmountCheckbox.disabled = true;
+                payMonthlyAmountCheckbox.disabled = true;
             } else {
                 paymentAmountInput.value = "";
                 payFullAmountCheckbox.disabled = false;
+                payMonthlyAmountCheckbox.disabled = false;
             }
 
             paymentAmountInput.dispatchEvent(inputEvent);
