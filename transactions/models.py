@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from datetime import datetime
 import time
 import random
 import math
@@ -86,7 +87,7 @@ class Payment(models.Model):
     )
 
     tenant = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=datetime.now)
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     balance = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=ONLINE)

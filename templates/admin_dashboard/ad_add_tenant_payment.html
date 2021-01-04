@@ -3,6 +3,13 @@
 
 {% block title %} | Add Payment{% endblock title %}
 
+{% block extraheadscripts %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+        integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ=="
+        crossorigin="anonymous"
+    />
+{% endblock extraheadscripts %}
+
 {% block content %}
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -18,3 +25,16 @@
         </div>
     </div>
 {% endblock content %}
+
+{% block extrascripts %}
+    <script
+          src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+          integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+          crossorigin="anonymous">
+    </script>
+    <script>
+        $( function() {
+            $("#add-payment-datepicker").datepicker();
+        });
+    </script>
+{% endblock extrascripts %}

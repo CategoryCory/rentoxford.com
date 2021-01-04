@@ -7,8 +7,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from transactions.models import Payment
-
 from listings.models import Listing
+from . import forms
+
 CustomUser = get_user_model()
 
 
@@ -45,7 +46,7 @@ def ad_tenants(request):
 
 class AddTenantPaymentView(LoginRequiredMixin, RedirectIfNotStaffMixin, SuccessMessageMixin, CreateView):
     model = Payment
-    fields = ['amount', 'notes', ]
+    form_class = forms.AddPaymentForm
     template_name = 'admin_dashboard/ad_add_tenant_payment.html'
     success_url = reverse_lazy('admin_dashboard:ad_tenants')
     success_message = 'The payment has been successfully recorded.'
